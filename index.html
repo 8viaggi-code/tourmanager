@@ -5397,7 +5397,7 @@ Rispondi SOLO con un JSON valido con questa struttura:
     method:'POST',
     headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true','anthropic-version':'2023-06-01','x-api-key':ANTHROPIC_KEY},
     body: JSON.stringify({
-      model:'claude-sonnet-4-20250514',
+      model:'claude-sonnet-4-6',
       max_tokens:2000,
       messages:[{role:'user',content:prompt}]
     })
@@ -5642,7 +5642,7 @@ function avviaConfronto(){
   var p4='COMPITO: Confronta periodi tariffari HB/FB: tariffe cambiate, periodi nuovi, stop nuovi/rimossi, minNotti cambiato. NON toccare bambini/supplementi/singola. Risposta in italiano per struttura. Alla fine: <DIFF>{"data_aggiornamento":"'+dataUpd+'","strutture":[{"id":5,"nome":"Torre Cintola","differenze":[{"tipo":"modifica","formula":"HB","dal":"2026-04-04","al":"2026-04-06","vecchio":110,"nuovo":125,"motivo":"prezzo aumentato"},{"tipo":"stop_nuovo","dal":"2026-05-30","al":"2026-06-02"}]}]}</DIFF>';
   fetch('https://api.anthropic.com/v1/messages',{method:'POST',
     headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true','anthropic-version':'2023-06-01','x-api-key':ANTHROPIC_KEY},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:p1+p2+p3+p4}]})
+    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2000,messages:[{role:'user',content:p1+p2+p3+p4}]})
   }).then(function(r){return r.json();}).then(function(data){
     var risp=(data.content||[]).map(function(c){return c.text||'';}).join('');
     var dm=risp.match(/<DIFF>([\s\S]*?)<\/DIFF>/);
@@ -6585,7 +6585,7 @@ function inviaAssistente(){
       'x-api-key': ANTHROPIC_KEY
     },
     body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',
+      model:'claude-sonnet-4-6',
       max_tokens:2500,
       system: systemPrompt,
       messages:[{role:'user',content: (function(){
