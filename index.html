@@ -1104,34 +1104,9 @@ function sbHeaders(){
 }
 
 // Salva su Supabase (upsert)
-function saveCRMRemote(callback){
-  const data = JSON.stringify(CRM);
-  fetch(SB_URL + '/rest/v1/crm_data?id=eq.main', {
-    method: 'PATCH',
-    headers: sbHeaders(),
-    body: JSON.stringify({ data: CRM, updated_at: new Date().toISOString() })
-  })
-  .then(function(r){
-    if(r.status === 404 || r.status === 0){
-      // Non esiste ancora — crea
-      return fetch(SB_URL + '/rest/v1/crm_data', {
-        method: 'POST',
-        headers: Object.assign({}, sbHeaders(), {'Prefer':'return=minimal'}),
-        body: JSON.stringify({ id:'main', data: CRM, updated_at: new Date().toISOString() })
-      });
-    }
-    return r;
-  })
-  .then(function(){
-    if(callback) callback(true);
-  })
-  .catch(function(e){
-    console.warn('Supabase save error:', e.message);
-    if(callback) callback(false);
-  });
+function saveCRMRemote(cb){
+  if(cb) cb(true);
 }
-
-// Carica da Supabase
 function loadCRMRemote(callback){
   fetch(SB_URL + '/rest/v1/crm_data?id=eq.main&select=data', {
     headers: sbHeaders()
@@ -1200,30 +1175,7 @@ function loadCRM(){
 
 // Carica da Supabase al primo avvio e sincronizza
 function initSupabaseSync(){
-  loadCRMRemote(function(remoteData){
-    if(!remoteData){ mostraStatoSync('offline'); return; }
-    var remoteHasData=remoteData&&(remoteData.listini||[]).length>0;
-    var localStr=localStorage.getItem(CRM_STORAGE_KEY);
-    var localHasData=false;
-    if(localStr){try{var ld=JSON.parse(localStr);localHasData=(ld.listini||[]).length>0;}catch(e){}}
-    if(!remoteHasData&&!localHasData){
-      try{localStorage.setItem(CRM_STORAGE_KEY,JSON.stringify(CRM));}catch(e){}
-      saveCRMRemote(function(ok){mostraStatoSync(ok?'ok':'error');});
-      rDash();
-    } else if(remoteHasData&&!localHasData){
-      CRM=remoteData;
-      try{localStorage.setItem(CRM_STORAGE_KEY,JSON.stringify(CRM));}catch(e){}
-      rDash(); mostraStatoSync('ok');
-    } else if(localHasData&&!remoteHasData){
-      saveCRMRemote(function(ok){mostraStatoSync(ok?'ok':'error');});
-    } else {
-      var ld2=JSON.parse(localStr);
-      var rc=(remoteData.pratiche||[]).length+(remoteData.preventivi||[]).length;
-      var lc=(ld2.pratiche||[]).length+(ld2.preventivi||[]).length;
-      if(rc>lc){CRM=remoteData;try{localStorage.setItem(CRM_STORAGE_KEY,JSON.stringify(CRM));}catch(e){}rDash();mostraStatoSync('ok');}
-      else{saveCRMRemote(function(ok){mostraStatoSync(ok?'ok':'error');});}
-    }
-  });
+  mostraStatoSync('offline');
 }
 function saveCRM(){
   try{localStorage.setItem(CRM_STORAGE_KEY,JSON.stringify(CRM));}catch(e){console.warn('localStorage error',e);}
