@@ -1039,56 +1039,40 @@ function defCRM(){return{
     // VILLAGGIO DOLOMITI SUL MARE — caricato manualmente
     {id:11,nome:"Villaggio Dolomiti sul Mare",cat:'hotel',
      dest:'Calabria - Briatico (Costa degli Dei)',stelle:3,
-     descr:'Villaggio 3 stelle sulla Costa degli Dei. Soggiorni settimanali D-D. Pranzo domenicale incluso.',
-     contratto:{tipo:'lordo',markup_minimo_pct:0,valuta:'EUR',
-       note_contratto:'Prezzi camera/settimana (2 adulti base). IVA inclusa. Best Price.'},
-     tariffe:[{
-       formula:'HB',label:'Mezza Pensione (pranzo domenicale incluso)',
-       base:'camera_settimana',tariffe_singola:[],
-       periodi:[
-         {dal:'2026-06-07',al:'2026-07-11',tariffa:715,minNotti:7,stop:false,note:'Bassa stagione'},
-         {dal:'2026-07-12',al:'2026-08-08',tariffa:835,minNotti:7,stop:false,note:'Alta stagione'},
-         {dal:'2026-08-09',al:'2026-08-22',tariffa:1000,minNotti:7,stop:false,note:'Ferragosto'},
-         {dal:'2026-08-23',al:'2026-08-29',tariffa:935,minNotti:7,stop:false,note:'Post ferragosto'},
-         {dal:'2026-08-30',al:'2026-09-06',tariffa:715,minNotti:7,stop:false,note:'Settembre'}
-       ]
-     }],
+     descr:'Villaggio 3 stelle sulla Costa degli Dei. Soggiorni settimanali domenica-domenica. Pranzo domenicale incluso.',
+     contratto:{tipo:'lordo',markup_minimo_pct:0,valuta:'EUR',note_contratto:'Prezzi per camera/settimana. NON moltiplicare per notti.'},
+     tariffe:[
+       {formula:'HB',label:'Mezza Pensione (prezzo per camera a settimana)',base:'camera_settimana',tariffe_singola:[],periodi:[
+         {dal:'2026-06-07',al:'2026-07-11',tariffa:715,minNotti:7,stop:false},
+         {dal:'2026-07-12',al:'2026-08-08',tariffa:835,minNotti:7,stop:false},
+         {dal:'2026-08-09',al:'2026-08-22',tariffa:1000,minNotti:7,stop:false},
+         {dal:'2026-08-23',al:'2026-08-29',tariffa:935,minNotti:7,stop:false},
+         {dal:'2026-08-30',al:'2026-09-06',tariffa:715,minNotti:7,stop:false}
+       ]}
+     ],
      occupazione:{
-       singola:{tipo:'dus',val:0,pag:'incluso',label:'Doppio uso singola (no suppl. bassa stagione)',
-         quote_supplementari:[
-           {dal:'2026-07-12',al:'2026-08-23',val:20,label:'Suppl. singola +20%',pag:'incluso',base:'percentuale'}
-         ]
-       },
+       singola:{tipo:'pct',val:50,pag:'incluso',label:'Supplemento singola +20% (DUS disponibile)'},
        posti:[
-         {id:'culla',label:'Bambino 0-3 anni (culla propria)',etaDa:0,etaA:3,posto:'culla',
-          occupa_posto:false,tipo:'gratis',val:0,condNotti:null,pag:'incluso',
-          variazioniPeriodo:[],quote_supplementari:[],
-          note:'In culla propria. Pasto da menu incluso.'},
-         {id:'3pl_bam',label:'3\u00b0 posto letto bambino 3-12 anni',etaDa:3,etaA:12,posto:'3pl',
-          occupa_posto:true,tipo:'gratis',val:0,condNotti:null,pag:'incluso',
-          variazioniPeriodo:[],
-          quote_supplementari:[
-            {dal:'2026-06-28',al:'2026-09-06',val:20,label:'Contributo pasto',pag:'loco',base:'pax_notte'}
-          ],
-          note:'GRATIS. Dal 28/06 al 06/09: contributo pasto 20 euro/gg IN LOCO.'}
+         {id:'culla',label:'Infant 0-3 anni',etaDa:0,etaA:3,posto:'culla',occupa_posto:false,tipo:'gratis',val:0,condNotti:null,pag:'incluso',variazioniPeriodo:[],
+          quote_supplementari:[{id:'pasto_culla',label:'Contributo pasto',importo:20,base:'per_persona_giorno',pag:'loco',dal:'2026-06-28',al:'2026-09-06'}]},
+         {id:'bam_316',label:'Bambino 3-16 anni (3 posto letto)',etaDa:3,etaA:16,posto:'3pl',occupa_posto:true,tipo:'gratis',val:0,condNotti:null,pag:'incluso',variazioniPeriodo:[],
+          quote_supplementari:[{id:'contributo_pasto',label:'Contributo pasto',importo:20,base:'per_persona_giorno',pag:'loco',dal:'2026-06-28',al:'2026-09-06'}]},
+         {id:'adulti_3pl',label:'Dal 3 posto adulti',etaDa:17,etaA:99,posto:'3pl',occupa_posto:true,tipo:'pct',val:20,condNotti:null,pag:'incluso',variazioniPeriodo:[],quote_supplementari:[]}
        ]
      },
      supplementi:[
-       {id:'vmare',label:'Vista Mare',base:'camera_settimana',tipo:'fisso',valDefault:100,pag:'incluso',
-        periodi:[{dal:'2026-06-07',al:'2026-09-06',val:100,note:'100 euro/camera/settimana'}]},
-       {id:'spiaggia',label:'Servizio Spiaggia (obbligatorio)',base:'pax_settimana',tipo:'fisso',valDefault:55,pag:'loco',
-        periodi:[{dal:'2026-06-07',al:'2026-09-06',val:55,note:'Obbligatorio IN LOCO'}]},
-       {id:'tessera',label:'Tessera Club (da 3 anni, obbligatoria)',base:'pax_settimana',tipo:'fisso',valDefault:5,pag:'loco',
-        periodi:[{dal:'2026-06-07',al:'2026-09-06',val:5,note:'5 euro/persona/settimana IN LOCO'}]},
+       {id:'vista_mare',label:'Vista Mare',base:'camera_settimana',tipo:'fisso',valDefault:100,pag:'incluso',periodi:[{dal:'2026-06-07',al:'2026-09-06',val:100}]},
+       {id:'spiaggia',label:'Servizio Spiaggia (obbligatorio)',base:'pax_settimana',tipo:'fisso',valDefault:55,pag:'loco',periodi:[{dal:'2026-06-07',al:'2026-09-06',val:55,note:'Obbligatorio IN LOCO'}]},
+       {id:'tessera',label:'Tessera Club (da 3 anni obbligatoria)',base:'pax_settimana',tipo:'fisso',valDefault:5,pag:'loco',periodi:[{dal:'2026-06-07',al:'2026-09-06',val:5,note:'5 euro/persona/settimana IN LOCO'}]},
        {id:'card',label:'Card Servizi',base:'camera_notte',tipo:'fisso',valDefault:0,pag:'loco',periodi:[]}
      ],
      regoleSpeciali:[
        {tipo:'min_notti_sabato',minNotti:7,note:'Soggiorni settimanali D-D obbligatori'},
-       {tipo:'personalizzata',minNotti:null,note:'Animali piccola taglia max 15kg su richiesta, escluse aree comuni. 10 euro/notte + 50 euro disinfezione finale IN LOCO'},
-       {tipo:'personalizzata',minNotti:null,note:'Parcheggio incluso. Tassa soggiorno IN LOCO. Cambio biancheria 1x settimana (2x se 2 settimane).'}
+       {tipo:'personalizzata',minNotti:null,note:'Animali piccola taglia max 15kg su richiesta. 10 euro/notte + 50 euro disinfezione finale IN LOCO'},
+       {tipo:'personalizzata',minNotti:null,note:'Parcheggio incluso. Tassa soggiorno IN LOCO.'}
      ],
      offerte:[],allegati:[],
-     note:'Villaggio Dolomiti sul Mare, Briatico VV, Costa degli Dei.'}
+     note:'Villaggio Dolomiti sul Mare, Briatico VV, Costa degli Dei. Soggiorni settimanali D-D.'}
   ],
   fornitori:[
     {id:1,ragione_sociale:'Greenblu Hotels & Resorts',piva:'',tipo:'hotel_chain',
