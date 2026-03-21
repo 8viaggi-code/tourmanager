@@ -595,8 +595,8 @@ function iSc(ds,stato){if(!ds||['pagato','pagata','accettato','conclusa'].includ
 // ============================================================
 // DATABASE (shared with core via localStorage)
 // ============================================================
-const CK='tm_v1'; // same key as core
-const CRM_KEY='tm_crm_v1';
+const CK='tm_crm_v5'; // same key as core
+const CRM_KEY='tm_crm_v5';
 
 function loadCoreDB(){
   try{const r=localStorage.getItem(CK);if(r)return JSON.parse(r);}catch(e){}
@@ -1090,7 +1090,7 @@ function defCRM(){return{
 // ============================================================
 // SUPABASE — configurazione e funzioni sync
 // ============================================================
-const ANTHROPIC_KEY = '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';
+const ANTHROPIC_KEY = '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';
 
 const SB_URL = 'https://bfquzljrbpnrmpbmamat.supabase.co';
 const SB_KEY = 'sb_publishable_IxReyYlFWeloZ8z4diBUCQ_vPlc6dH5';
@@ -1135,7 +1135,7 @@ function mostraStatoSync(stato){
   else if(stato === 'offline'){ el.textContent = '&#9729; offline'; el.style.color = 'var(--t3)'; }
 }
 
-const CRM_VER='crm_v5';
+const CRM_VER = 'crm_v5';
 const CRM_STORAGE_KEY=CRM_KEY+'_'+CRM_VER; // v5 = new listini schema
 
 function loadCRM(){
@@ -1698,7 +1698,7 @@ function convertiInPratica(prevId){
 function stampaPrev(){
   salvaBozza();
   const ant=G('prev-ant').innerHTML;
-  const az=JSON.parse(localStorage.getItem('tm_v1')||'{}').az||{nome:'Tour Operator Srl'};
+  const az=JSON.parse(localStorage.getItem('tm_crm_v5')||'{}').az||{nome:'Tour Operator Srl'};
   const p=(CRM.preventivi||[]).find(x=>x.id===editId);
   const w=window.open('','_blank','width=800,height=600');
   w.document.write(`<!DOCTYPE html><html><head><title>Preventivo ${p?.num||''}</title><style>
