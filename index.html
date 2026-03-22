@@ -568,7 +568,17 @@ if(sessionStorage.getItem('tm_auth') === '1'){
       <div style="border-top:1px solid var(--b);padding-top:10px;display:flex;gap:7px;margin-top:auto;flex-shrink:0;">
         <input id="chat-in" placeholder="Scrivi messaggio..." style="flex:1;font-size:13px;padding:7px 11px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);" onkeydown="if(event.key==='Enter')sendMsg()"/>
         <select id="chat-tag" style="font-size:11px;padding:5px 8px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t2);"><option value="">— tag —</option><option>preventivo</option><option>conferma</option><option>pagamento</option><option>modifica</option><option>reclamo</option></select>
-        <button class="btn pr" onclick="sendfunction strs(n){return "★".repeat(parseInt(n)||0)||"—";}
+        <button class="btn pr" onclick="inviaAssistente()">Invia</button>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+function strs(n){return "★".repeat(parseInt(n)||0)||"—";}
 
 
 
@@ -1176,6 +1186,7 @@ function loadCRM(){
 
 // Carica da Supabase al primo avvio e sincronizza
 function initSupabaseSync(){
+  // Supabase temporaneamente disabilitato
   mostraStatoSync('offline');
 }
 function saveCRM(){
@@ -7199,157 +7210,6 @@ rDash();
     }, 3000);
   }
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-priGestioneBackup(); };
-      document.body.appendChild(n);
-      setTimeout(function(){ n.remove(); }, 8000);
-    }, 3000);
-  }
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </script>
 </body>
