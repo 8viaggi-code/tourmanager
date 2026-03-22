@@ -2,6 +2,10 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="build" content="20260321_v1">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -564,20 +568,7 @@ if(sessionStorage.getItem('tm_auth') === '1'){
       <div style="border-top:1px solid var(--b);padding-top:10px;display:flex;gap:7px;margin-top:auto;flex-shrink:0;">
         <input id="chat-in" placeholder="Scrivi messaggio..." style="flex:1;font-size:13px;padding:7px 11px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);" onkeydown="if(event.key==='Enter')sendMsg()"/>
         <select id="chat-tag" style="font-size:11px;padding:5px 8px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t2);"><option value="">— tag —</option><option>preventivo</option><option>conferma</option><option>pagamento</option><option>modifica</option><option>reclamo</option></select>
-        <button class="btn pr" onclick="sendMsg()">Invia</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-  </div><!-- ct -->
-</div><!-- main -->
-</div><!-- app -->
-
-<!-- MODAL -->
-<div class="mo" id="mo"><div class="mb" id="mb"></div></div>
-
-<script>function strs(n){return "★".repeat(parseInt(n)||0)||"—";}
+        <button class="btn pr" onclick="sendfunction strs(n){return "★".repeat(parseInt(n)||0)||"—";}
 
 
 
@@ -1136,9 +1127,19 @@ function mostraStatoSync(stato){
 }
 
 const CRM_VER = 'crm_v5';
+const BUILD_VER = '20260321_v1'; // Aggiorna questo ad ogni deploy importante
 const CRM_STORAGE_KEY=CRM_KEY+'_'+CRM_VER; // v5 = new listini schema
 
 function loadCRM(){
+  // Forza reset se build version diversa
+  var savedBuild = localStorage.getItem('tm_build_ver');
+  if(savedBuild && savedBuild !== BUILD_VER){
+    console.log('[TourManager] Nuova versione rilevata ('+savedBuild+' -> '+BUILD_VER+') — reset dati');
+    localStorage.removeItem('tm_crm_v5');
+    localStorage.setItem('tm_build_ver', BUILD_VER);
+  } else if(!savedBuild){
+    localStorage.setItem('tm_build_ver', BUILD_VER);
+  }
   try{
     const r=localStorage.getItem(CRM_STORAGE_KEY);
     if(r){
@@ -7193,6 +7194,85 @@ rDash();
       n.innerHTML = '💾 <b>Ricorda il backup!</b><br><span style="font-size:10px;">Clicca "Backup dati" nella sidebar per salvare i tuoi dati</span>';
       n.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--am);color:#fff;padding:10px 16px;border-radius:var(--r2);font-size:12px;z-index:9999;cursor:pointer;text-align:center;';
       n.onclick = function(){ n.remove(); apriGestioneBackup(); };
+      document.body.appendChild(n);
+      setTimeout(function(){ n.remove(); }, 8000);
+    }, 3000);
+  }
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+priGestioneBackup(); };
       document.body.appendChild(n);
       setTimeout(function(){ n.remove(); }, 8000);
     }, 3000);
