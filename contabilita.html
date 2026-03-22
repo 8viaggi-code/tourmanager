@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TourManager Pro</title>
+<style>
+:root{--bg:#0f1117;--bg2:#161b27;--bg3:#1e2535;--bg4:#252d40;--b:#2a3348;--b2:#3a4560;--t:#e8edf5;--t2:#8a9ab8;--t3:#5a6a88;--ac:#4f7ef8;--ac2:#3d63c8;--gr:#22c97a;--re:#f05252;--am:#f5a623;--pu:#9b6dff;--tl:#2dd4bf;--mo:'IBM Plex Mono',monospace;--sa:'IBM Plex Sans',sans-serif;--r:8px;--r2:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sa);background:var(--bg);color:var(--t);font-size:13px;line-height:1.5;height:100vh;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sb{width:210px;min-width:210px;background:var(--bg2);border-right:1px solid var(--b);display:flex;flex-direction:column;overflow-y:auto;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.tb{background:var(--bg2);border-bottom:1px solid var(--b);padding:0 18px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ct{flex:1;overflow-y:auto;padding:18px;}
+.logo{padding:14px 14px 10px;border-bottom:1px solid var(--b);}
+.logo-n{font-size:14px;font-weight:600;}
+.logo-s{font-size:9px;color:var(--t3);font-family:var(--mo);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
+.lu{margin-top:8px;padding-top:8px;border-top:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;font-size:11px;}
+.ng{padding:8px 0 2px;}
+.ngl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;padding:0 14px 3px;font-weight:600;}
+.ni{display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer;color:var(--t2);font-size:12px;border-left:2px solid transparent;transition:all .12s;}
+.ni:hover{background:var(--bg3);color:var(--t);}
+.ni.on{background:var(--bg3);color:var(--ac);border-left-color:var(--ac);font-weight:500;}
+.nd{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.6;flex-shrink:0;}
+.ni.on .nd{opacity:1;}
+.nal{margin-top:auto;padding:10px 14px;border-top:1px solid var(--b);}
+.al{display:block;padding:5px 9px;font-size:11px;color:var(--t3);text-decoration:none;border-radius:var(--r);margin-bottom:3px;border:1px solid transparent;}
+.al:hover{background:var(--bg3);color:var(--t2);border-color:var(--b);}
+.btn{padding:5px 13px;font-size:12px;cursor:pointer;border-radius:var(--r);border:1px solid var(--b2);background:var(--bg3);color:var(--t);font-family:var(--sa);transition:all .12s;}
+.btn:hover{background:var(--bg4);}
+.btn.pr{background:var(--ac);border-color:var(--ac);color:#fff;}
+.btn.pr:hover{background:var(--ac2);}
+.btn.ok{background:#16a05e;border-color:#16a05e;color:#fff;}
+.btn.dl{border-color:#c03f3f;color:var(--re);background:transparent;}
+.btn.dl:hover{background:rgba(240,82,82,.1);}
+.btn.sm{padding:3px 9px;font-size:11px;}
+.pg{display:none;}.pg.on{display:block;}
+.ab{background:var(--bg3);border-bottom:1px solid var(--b);padding:8px 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex-shrink:0;}
+.ap{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid;}
+.ap.r{background:rgba(240,82,82,.12);color:var(--re);border-color:rgba(240,82,82,.3);}
+.ap.a{background:rgba(245,166,35,.12);color:var(--am);border-color:rgba(245,166,35,.3);}
+.ap.b{background:rgba(79,126,248,.12);color:var(--ac);border-color:rgba(79,126,248,.3);}
+.kg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px;}
+.kp{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r2);padding:12px 14px;}
+.kl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;}
+.kv{font-size:18px;font-weight:600;font-family:var(--mo);}
+.ks{font-size:10px;color:var(--t3);margin-top:2px;}
+.cb{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r2);padding:14px;margin-bottom:12px;}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.ct2{font-size:11px;font-weight:500;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:400px;}
+th{font-size:10px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:7px 9px;border-bottom:1px solid var(--b);text-align:left;white-space:nowrap;}
+td{padding:7px 9px;border-bottom:1px solid var(--b);font-size:12px;color:var(--t);vertical-align:middle;}
+td.n{font-family:var(--mo);font-size:11px;text-align:right;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg3);}
+.er{text-align:center;color:var(--t3);padding:28px 0 !important;}
+.bx{display:inline-flex;align-items:center;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:500;font-family:var(--mo);white-space:nowrap;}
+.bg{background:rgba(34,201,122,.12);color:var(--gr);border:1px solid rgba(34,201,122,.25);}
+.br{background:rgba(240,82,82,.12);color:var(--re);border:1px solid rgba(240,82,82,.25);}
+.ba{background:rgba(245,166,35,.12);color:var(--am);border:1px solid rgba(245,166,35,.25);}
+.bb{background:rgba(79,126,248,.12);color:var(--ac);border:1px solid rgba(79,126,248,.25);}
+.bp{background:rgba(155,109,255,.12);color:var(--pu);border:1px solid rgba(155,109,255,.25);}
+.bt{background:rgba(45,212,191,.12);color:var(--tl);border:1px solid rgba(45,212,191,.25);}
+.bz{background:rgba(90,106,136,.15);color:var(--t2);border:1px solid var(--b);}
+.sr{display:flex;gap:7px;margin-bottom:11px;flex-wrap:wrap;}
+.sr input,.sr select{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);padding:5px 9px;font-size:12px;font-family:var(--sa);}
+.sr input{flex:1;min-width:150px;}
+.sr input:focus,.sr select:focus{outline:none;border-color:var(--ac);}
+.fg{display:grid;gap:9px;margin-bottom:9px;}
+.f1{grid-template-columns:1fr;}
+.f2{grid-template-columns:1fr 1fr;}
+.f3{grid-template-columns:1fr 1fr 1fr;}
+.f4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.fi{display:flex;flex-direction:column;gap:3px;}
+.fi label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;}
+.fi input,.fi select,.fi textarea{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);padding:6px 9px;font-size:12.5px;font-family:var(--sa);width:100%;transition:border-color .12s;}
+.fi input:focus,.fi select:focus,.fi textarea:focus{outline:none;border-color:var(--ac);}
+.fi textarea{resize:vertical;min-height:50px;}
+.fs{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;padding:8px 0 4px;border-bottom:1px solid var(--b);margin-bottom:8px;}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;align-items:center;justify-content:center;}
+.mo.on{display:flex;}
+.mb{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);padding:20px;width:540px;max-width:95vw;max-height:88vh;overflow-y:auto;}
+.mt{font-size:15px;font-weight:600;margin-bottom:16px;}
+.ma{display:flex;justify-content:flex-end;gap:7px;margin-top:16px;padding-top:12px;border-top:1px solid var(--b);}
+.au{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;}
+.ac{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r2);padding:30px 34px;width:340px;max-width:93vw;}
+.lb{display:flex;flex-direction:column;gap:3px;margin-bottom:10px;}
+.lb label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;}
+.lb input{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);padding:7px 10px;font-size:13px;font-family:var(--sa);}
+.lb input:focus{outline:none;border-color:var(--ac);}
+.ae{background:rgba(240,82,82,.12);border:1px solid #c03f3f;border-radius:var(--r);padding:7px 11px;font-size:12px;color:var(--re);margin-bottom:10px;display:none;}
+.ib{background:var(--bg3);border:1px dashed var(--b2);border-radius:var(--r2);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.lr{background:var(--bg3);border:1px solid var(--b);border-radius:var(--r2);padding:13px;margin-bottom:10px;}
+.lw{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid var(--b);}
+.lw:last-child{border-bottom:none;}
+.lw.tt{font-weight:600;font-size:13px;border-top:1px solid var(--b2);padding-top:7px;margin-top:3px;border-bottom:none;}
+.ll{color:var(--t2);}
+.lv{font-family:var(--mo);font-size:11px;}
+.bt2{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;}
+.bti{padding:5px 13px;font-size:12px;cursor:pointer;border-radius:var(--r);border:1px solid var(--b2);background:var(--bg3);color:var(--t2);transition:all .12s;}
+.bti.on{background:var(--ac);border-color:var(--ac);color:#fff;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px;}
+option{background:var(--bg3);}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div class="au" id="au">
+  <div class="ac">
+    <div style="font-size:16px;font-weight:600;margin-bottom:2px;">TourManager Pro</div>
+    <div style="font-size:9px;color:var(--t3);font-family:var(--mo);text-transform:uppercase;letter-spacing:.08em;margin-bottom:22px;">Regime 74-ter · Accesso sicuro</div>
+    <div class="ae" id="ae">Credenziali non valide</div>
+    <div class="lb"><label>Username</label><input id="lu" autocomplete="username" onkeydown="if(event.key==='Enter')login()"/></div>
+    <div class="lb" style="margin-bottom:15px;"><label>Password</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/></div>
+    <button onclick="login()" style="width:100%;padding:9px;font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--r);border:none;background:var(--ac);color:#fff;font-family:var(--sa);">Accedi</button>
+    <div style="margin-top:14px;font-size:10px;color:var(--t3);text-align:center;line-height:1.9;">
+      Admin: <b style="color:var(--t2)">admin</b> / <b style="color:var(--t2)">admin123</b><br>
+      Operatore: <b style="color:var(--t2)">marco</b> / <b style="color:var(--t2)">marco123</b><br>
+      Lettura: <b style="color:var(--t2)">anna</b> / <b style="color:var(--t2)">anna123</b>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app" style="display:none;">
+<div class="sb">
+  <div class="logo">
+    <div class="logo-n">TourManager Pro</div>
+    <div class="logo-s">S.r.l. · 74-ter · Sempl.</div>
+    <div class="lu" id="su"></div>
+  </div>
+  <div class="ng"><div class="ngl">Panoramica</div>
+    <div class="ni on" onclick="nav('dash')"><span class="nd"></span>Dashboard</div>
+  </div>
+  <div class="ng"><div class="ngl">Ciclo attivo</div>
+    <div class="ni" onclick="nav('cli')"><span class="nd"></span>Clienti / Agenzie</div>
+    <div class="ni" onclick="nav('fatt')"><span class="nd"></span>Fatture emesse</div>
+    <div class="ni" onclick="nav('inc')"><span class="nd"></span>Incassi</div>
+  </div>
+  <div class="ng"><div class="ngl">Ciclo passivo</div>
+    <div class="ni" onclick="nav('forn')"><span class="nd"></span>Fornitori</div>
+    <div class="ni" onclick="nav('fp')"><span class="nd"></span>Fatture passive &amp; Spese</div>
+    <div class="ni" onclick="nav('acq')"><span class="nd"></span>Registro acquisti</div>
+    <div class="ni" onclick="nav('rit')"><span class="nd"></span>Ritenute d'acconto</div>
+    <div class="ni" onclick="nav('af')"><span class="nd"></span>Autofatture TD17/19</div>
+  </div>
+  <div class="ng"><div class="ngl">Banche &amp; Liquidità</div>
+    <div class="ni" onclick="nav('ban')"><span class="nd"></span>Conti bancari</div>
+    <div class="ni" onclick="nav('cas')"><span class="nd"></span>Cassa contanti</div>
+    <div class="ni" onclick="nav('pos')"><span class="nd"></span>Pagamenti POS</div>
+  </div>
+  <div class="ng"><div class="ngl">Fiscalità</div>
+    <div class="ni" onclick="nav('iv')"><span class="nd"></span>IVA 74-ter / Margine</div>
+    <div class="ni" onclick="nav('ir')"><span class="nd"></span>IRES / IRAP</div>
+    <div class="ni" onclick="nav('f24')"><span class="nd"></span>Scadenzario F24</div>
+  </div>
+  <div class="ng"><div class="ngl">Contabilità</div>
+    <div class="ni" onclick="nav('mas')"><span class="nd"></span>Piano dei conti</div>
+    <div class="ni" onclick="nav('sca')"><span class="nd"></span>Scadenzario generale</div>
+    <div class="ni" onclick="nav('bil')"><span class="nd"></span>Bilancio</div>
+  </div>
+  <div class="nal">
+    <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">Altri moduli</div>
+    <a class="al" href="tourmanager_crm.html">→ CRM / Preventivi / Pratiche</a>
+    <a class="al" href="tourmanager_admin.html">→ Admin / Alert / Utenti / Notizie</a>
+  </div>
+</div>
+<div class="main">
+  <div class="tb">
+    <div style="font-size:13px;font-weight:500;" id="pt">Dashboard</div>
+    <div style="display:flex;align-items:center;gap:8px;" id="ta">
+      <span style="font-size:10px;color:var(--t3);font-family:var(--mo);background:var(--bg3);padding:2px 8px;border-radius:4px;border:1px solid var(--b);">ART.74-TER</span>
+    </div>
+  </div>
+  <div id="alb" class="ab" style="display:none;"></div>
+  <div class="ct">
+
+<!-- DASHBOARD -->
+<div id="p-dash" class="pg on">
+  <div class="kg" id="kg"></div>
+  <div class="g2">
+    <div>
+      <div class="cb"><div class="ch"><span class="ct2">Ultime fatture</span></div><div class="tw"><table><thead><tr><th>N°</th><th>Cliente</th><th>Totale</th><th>Stato</th></tr></thead><tbody id="d-fatt"></tbody></table></div></div>
+      <div class="cb"><div class="ch"><span class="ct2">Spese recenti</span></div><div class="tw"><table><thead><tr><th>Fornitore</th><th>Categoria</th><th>Totale</th><th>Stato</th></tr></thead><tbody id="d-sp"></tbody></table></div></div>
+    </div>
+    <div>
+      <div class="cb"><div class="ch"><span class="ct2">Saldi banche</span></div><div id="d-ban"></div></div>
+      <div class="cb"><div class="ch"><span class="ct2">F24 prossimi</span></div><div id="d-f24"></div></div>
+      <div class="cb"><div class="ch"><span class="ct2">Notizie fiscali 2026</span><span id="nts" style="font-size:9px;color:var(--t3);"></span></div><div id="d-news" style="font-size:12px;line-height:1.7;color:var(--t2);"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENTI -->
+<div id="p-cli" class="pg">
+  <div class="sr"><input id="sc" placeholder="Cerca nome, P.IVA, SDI..." oninput="rCli()"/><select id="sc-t" onchange="rCli()"><option value="">Tutti</option><option value="agenzia">Agenzie B2B</option><option value="privato">Privati B2C</option></select></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>Ragione sociale</th><th>Tipo</th><th>P.IVA/CF</th><th>SDI</th><th>PEC</th><th>Paese</th><th>Email</th><th>Tel</th><th></th></tr></thead><tbody id="t-cli"></tbody></table></div></div>
+</div>
+
+<!-- FATTURE -->
+<div id="p-fatt" class="pg">
+  <div class="sr"><input id="sf" placeholder="Cerca n°, cliente..." oninput="rFatt()"/><select id="sf-t" onchange="rFatt()"><option value="">Tutti tipi</option><option value="intra">Intra-UE</option><option value="extra">Extra-UE</option><option value="mix">Mix</option></select><select id="sf-s" onchange="rFatt()"><option value="">Tutti stati</option><option value="attesa">Attesa</option><option value="pagato">Pagato</option><option value="scaduto">Scaduto</option></select></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>N°</th><th>Data</th><th>Cliente</th><th>Tipo 74-ter</th><th>Imponibile</th><th>Totale</th><th>Scad.pag.</th><th>Stato</th><th></th></tr></thead><tbody id="t-fatt"></tbody></table></div></div>
+</div>
+
+<!-- INCASSI -->
+<div id="p-inc" class="pg">
+  <div class="sr"><input id="si" placeholder="Cerca cliente, nota..." oninput="rInc()"/></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>Data</th><th>Cliente</th><th>Fatt.rif.</th><th>Importo</th><th>Conto</th><th>Metodo</th><th>Note</th><th></th></tr></thead><tbody id="t-inc"></tbody></table></div></div>
+</div>
+
+<!-- FORNITORI -->
+<div id="p-forn" class="pg">
+  <div class="sr"><input id="sfo" placeholder="Cerca nome, P.IVA, SDI..." oninput="rForn()"/><select id="sfo-p" onchange="rForn()"><option value="">Tutti paesi</option><option value="IT">Italia</option><option value="UE">UE (non IT)</option><option value="EX">Extra-CEE</option></select></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>Ragione sociale</th><th>Tipo</th><th>P.IVA</th><th>SDI/PEC</th><th>Paese</th><th>IBAN</th><th>Ritenuta</th><th>Autofattura</th><th></th></tr></thead><tbody id="t-forn"></tbody></table></div></div>
+</div>
+
+<!-- FATTURE PASSIVE -->
+<div id="p-fp" class="pg">
+  <div class="ib">
+    <span style="font-size:12px;font-weight:500;">Importa fattura/bolletta:</span>
+    <label style="cursor:pointer;"><span class="btn sm pr">📄 PDF / XML-SDI / CSV / Excel</span><input type="file" id="fp-f" accept=".pdf,.xml,.csv,.xlsx,.xls" style="display:none;" onchange="hFP(this)"/></label>
+    <span style="font-size:10px;color:var(--t3);">Riconosce luce, gas, acqua, telefono, XML FatturaPA, qualsiasi PDF testuale</span>
+    <span id="fp-s" style="font-size:11px;margin-left:auto;"></span>
+  </div>
+  <div id="fp-form" style="display:none;" class="cb">
+    <div class="ch"><span class="ct2">Dati estratti — verifica e salva</span><button class="btn sm dl" onclick="document.getElementById('fp-form').style.display='none'">✕</button></div>
+    <div class="fg f3"><div class="fi"><label>Fornitore *</label><input id="fp-n"/></div><div class="fi"><label>P.IVA</label><input id="fp-pi"/></div><div class="fi"><label>N° documento</label><input id="fp-nm"/></div></div>
+    <div class="fg f4"><div class="fi"><label>Data</label><input id="fp-d" type="date"/></div><div class="fi"><label>Scad.pag.</label><input id="fp-sc" type="date"/></div><div class="fi"><label>Categoria</label><select id="fp-c"><option>Bolletta energia elettrica</option><option>Bolletta gas</option><option>Bolletta acqua</option><option>Telefonia / Internet</option><option>Affitto ufficio</option><option>Assicurazione</option><option>Consulenza professionale</option><option>Acquisto servizi turistici</option><option>Carburante / Auto</option><option>Software / Licenze</option><option>Pubblicità / Marketing</option><option>Materiale ufficio</option><option>Spese bancarie</option><option>Altro</option></select></div><div class="fi"><label>Deducib.%</label><input id="fp-de" type="number" value="100" min="0" max="100"/></div></div>
+    <div class="fg f4"><div class="fi"><label>Imponibile €</label><input id="fp-im" type="number" step="0.01" oninput="cFP()"/></div><div class="fi"><label>Aliq.IVA%</label><select id="fp-al" onchange="cFP()"><option value="22">22%</option><option value="10">10%</option><option value="5">5%</option><option value="4">4%</option><option value="0">0%</option></select></div><div class="fi"><label>IVA €</label><input id="fp-iv" readonly style="opacity:.7"/></div><div class="fi"><label>Totale €</label><input id="fp-to" type="number" step="0.01"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Metodo pag.</label><select id="fp-me"><option>Bonifico</option><option>SDD addebito diretto</option><option>RID automatico</option><option>Carta di credito</option><option>Contanti</option></select></div><div class="fi"><label>Note</label><input id="fp-no"/></div></div>
+    <div style="display:flex;gap:7px;margin-top:8px;"><button class="btn pr" onclick="sFP()">Salva in contabilità</button><button class="btn" onclick="document.getElementById('fp-form').style.display='none'">Annulla</button></div>
+  </div>
+  <div class="kg" id="fp-kpi" style="grid-template-columns:repeat(4,minmax(0,1fr));"></div>
+  <div class="sr"><input id="s-fp" placeholder="Cerca fornitore, categoria..." oninput="rFP()"/><select id="s-fpc" onchange="rFP()"><option value="">Tutte le categorie</option><option>Bolletta energia elettrica</option><option>Bolletta gas</option><option>Bolletta acqua</option><option>Telefonia / Internet</option><option>Affitto ufficio</option><option>Assicurazione</option><option>Consulenza professionale</option><option>Acquisto servizi turistici</option><option>Carburante / Auto</option></select><select id="s-fps" onchange="rFP()"><option value="">Tutti</option><option value="da pagare">Da pagare</option><option value="pagata">Pagata</option></select></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>N°</th><th>Data</th><th>Fornitore</th><th>Categoria</th><th>Imponibile</th><th>IVA</th><th>Totale</th><th>Ded.</th><th>Scad.</th><th>Stato</th><th></th></tr></thead><tbody id="t-fp"></tbody></table></div></div>
+  <div class="cb"><div class="ch"><span class="ct2">Per categoria</span></div><div id="fp-rc" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px;"></div></div>
+</div>
+
+<!-- ACQUISTI -->
+<div id="p-acq" class="pg">
+  <div class="sr"><input id="sa" placeholder="Cerca fornitore, desc..." oninput="rAcq()"/><select id="sa-t" onchange="rAcq()"><option value="">Tutti</option><option value="intra">Intra-UE</option><option value="extra">Extra-UE</option></select></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>Data</th><th>Fornitore</th><th>Descrizione</th><th>Tipo</th><th>Imponibile</th><th>IVA</th><th>Totale</th><th>Stato</th><th></th></tr></thead><tbody id="t-acq"></tbody></table></div></div>
+</div>
+
+<!-- RITENUTE -->
+<div id="p-rit" class="pg">
+  <div class="cb" style="background:rgba(245,166,35,.06);border-color:rgba(245,166,35,.3);margin-bottom:10px;"><div style="font-size:11px;color:var(--am);line-height:1.7;"><b>Novità 2026 (L.199/2025):</b> Dal 1° maggio 2026 ritenuta d'acconto 23% su 50% delle provvigioni (senza dipendenti) o su 20% (con dipendenti). F24 cod.1040 entro il 16 del mese successivo. Inviare dichiarazione scritta al committente per applicare base 20%.</div></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>Data</th><th>Fornitore</th><th>Lordo</th><th>Base%</th><th>Aliq.</th><th>Ritenuta</th><th>Netto</th><th>Scad.vers.</th><th>Stato</th><th></th></tr></thead><tbody id="t-rit"></tbody></table></div></div>
+  <div class="g2" style="margin-top:12px;"><div class="cb"><div class="ch"><span class="ct2">Da versare / versate</span></div><div id="rit-sum"></div></div><div class="cb"><div class="ch"><span class="ct2">Ritenute subite (provvigioni)</span></div><div id="rit-sub"></div></div></div>
+</div>
+
+<!-- AUTOFATTURE -->
+<div id="p-af" class="pg">
+  <div class="cb" style="background:rgba(79,126,248,.06);border-color:rgba(79,126,248,.3);margin-bottom:10px;"><div style="font-size:11px;color:var(--ac);line-height:1.7;"><b>Quando emettere:</b> TD17 = servizi intra-UE · TD18 = beni intra-UE · TD19 = extra-UE / extra-CEE · Scadenza: entro 15° giorno del mese successivo al documento estero.</div></div>
+  <div class="kg" id="af-kpi" style="grid-template-columns:repeat(4,minmax(0,1fr));"></div>
+  <div class="sr"><input id="s-af" placeholder="Cerca n°, fornitore..." oninput="rAF()"/><select id="s-aft" onchange="rAF()"><option value="">Tutti tipi</option><option value="td17">TD17</option><option value="td18">TD18</option><option value="td19">TD19</option></select><select id="s-afs" onchange="rAF()"><option value="">Tutti stati</option><option value="da inviare">Da inviare</option><option value="inviata">Inviata</option><option value="accettata">Accettata</option><option value="scartata">Scartata</option></select></div>
+  <div class="cb"><div class="tw"><table><thead><tr><th>N°</th><th>Tipo</th><th>Data</th><th>Scad.SDI</th><th>Fornitore</th><th>P.IVA</th><th>Imponibile</th><th>Aliq.</th><th>IVA</th><th>Totale</th><th>Stato SDI</th><th></th></tr></thead><tbody id="t-af"></tbody></table></div></div>
+</div>
+
+<!-- BANCHE -->
+<div id="p-ban" class="pg">
+  <div class="bt2" id="btabs"></div>
+  <div class="ib">
+    <span style="font-size:12px;font-weight:500;">Importa estratto:</span>
+    <label style="cursor:pointer;"><span class="btn sm">📂 CSV / Excel / PDF</span><input type="file" id="bi-f" accept=".csv,.xlsx,.xls,.pdf" style="display:none;" onchange="hBI(this)"/></label>
+    <select id="bi-a" style="font-size:11px;padding:4px 8px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);"><option value="2026">2026</option><option value="2025">2025</option></select>
+    <span id="bi-s" style="font-size:11px;margin-left:auto;"></span>
+  </div>
+  <div id="bi-prev" style="display:none;" class="cb">
+    <div class="ch"><span class="ct2" id="bi-pt">Anteprima import</span><div style="display:flex;gap:6px;"><button class="btn sm pr" onclick="cBI()">Importa selezionati</button><button class="btn sm" onclick="xBI()">Annulla</button></div></div>
+    <div class="tw"><table><thead><tr><th><input type="checkbox" id="bi-all" onchange="tBI(this)"/></th><th>Data</th><th>Descrizione</th><th>Entrata</th><th>Uscita</th><th>Aggancia</th><th>Categoria</th><th>Dup.</th></tr></thead><tbody id="t-bi"></tbody></table></div>
+  </div>
+  <div class="g2">
+    <div class="cb">
+      <div class="ch"><span class="ct2" id="ban-lb">Estratto conto</span><div style="display:flex;gap:6px;align-items:center;"><select id="ban-a" style="font-size:11px;padding:3px 7px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);" onchange="rBan()"><option value="2026">2026</option><option value="2025">2025</option><option value="">Tutti</option></select><button class="btn sm" onclick="oM('movb')">+ Manuale</button></div></div>
+      <div class="tw"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Entrata</th><th>Uscita</th><th>Saldo</th><th>Cat.</th><th>Aggancio</th><th></th></tr></thead><tbody id="t-ban"></tbody></table></div>
+    </div>
+    <div>
+      <div class="cb"><div class="ch"><span class="ct2">Saldo corrente</span></div><div id="ban-saldo" style="font-size:26px;font-weight:600;font-family:var(--mo);padding:8px 0;"></div></div>
+      <div class="cb"><div class="ch"><span class="ct2">Riepilogo</span></div><div id="ban-riep"></div></div>
+      <div class="cb"><div class="ch"><span class="ct2">Non agganciati</span></div><div id="ban-na" style="font-size:12px;"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CASSA -->
+<div id="p-cas" class="pg">
+  <div class="g2">
+    <div class="cb"><div class="ch"><span class="ct2">Registro cassa</span></div><div class="tw"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Entrata</th><th>Uscita</th><th>Saldo</th><th></th></tr></thead><tbody id="t-cas"></tbody></table></div></div>
+    <div class="cb"><div class="ch"><span class="ct2">Saldo cassa</span></div><div id="cas-s" style="font-size:26px;font-weight:600;font-family:var(--mo);padding:8px 0;"></div></div>
+  </div>
+</div>
+
+<!-- POS -->
+<div id="p-pos" class="pg">
+  <div class="kg" id="pos-kpi" style="grid-template-columns:repeat(4,minmax(0,1fr));"></div>
+  <div class="g2">
+    <div class="cb"><div class="ch"><span class="ct2">Transazioni</span><select id="pos-t" onchange="rPOS()" style="font-size:11px;padding:3px 7px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);"><option value="">Tutti i terminali</option></select></div><div class="tw"><table><thead><tr><th>Data/Ora</th><th>Terminale</th><th>Cliente</th><th>Importo</th><th>Circuito</th><th>****</th><th>Stato</th><th></th></tr></thead><tbody id="t-pos"></tbody></table></div></div>
+    <div><div class="cb"><div class="ch"><span class="ct2">Terminali</span><button class="btn sm" onclick="oM('term')">+</button></div><div id="pos-term"></div></div><div class="cb"><div class="ch"><span class="ct2">Per circuito</span></div><div id="pos-circ"></div></div></div>
+  </div>
+</div>
+
+<!-- IVA 74-TER -->
+<div id="p-iv" class="pg">
+  <div class="g2">
+    <div class="cb">
+      <div class="ch"><span class="ct2">Liquidazione periodica</span></div>
+      <div class="fg f2"><div class="fi"><label>Periodo</label><select id="lp"><option>1° trimestre</option><option>2° trimestre</option><option selected>3° trimestre</option><option>4° trimestre</option><option>Anno intero</option></select></div><div class="fi"><label>Anno</label><input id="la" type="number" value="2026"/></div></div>
+      <div class="fg f2"><div class="fi"><label>Ricavi intra-UE €</label><input id="lri" type="number" value="0"/></div><div class="fi"><label>Ricavi extra-UE €</label><input id="lre" type="number" value="0"/></div><div class="fi"><label>Costi intra-UE €</label><input id="lci" type="number" value="0"/></div><div class="fi"><label>Costi extra-UE €</label><input id="lce" type="number" value="0"/></div><div class="fi"><label>Aliq.IVA %</label><input id="lal" type="number" value="22"/></div><div class="fi"><label>Acconto versato €</label><input id="lac" type="number" value="0"/></div></div>
+      <div class="fs">Pro-rata</div>
+      <div class="fg f3"><div class="fi"><label>Op.imponibili €</label><input id="loi" type="number" value="0"/></div><div class="fi"><label>Op.esenti/fuori campo €</label><input id="loe" type="number" value="0"/></div><div class="fi"><label>IVA acquisti promiscui €</label><input id="lia" type="number" value="0"/></div></div>
+      <div style="display:flex;gap:7px;margin-top:10px;"><button class="btn" onclick="aFL()">Importa dai registri</button><button class="btn pr" onclick="cLiq()">Calcola</button></div>
+    </div>
+    <div id="liq-r"></div>
+  </div>
+</div>
+
+<!-- IRES/IRAP -->
+<div id="p-ir" class="pg">
+  <div class="g2">
+    <div class="cb">
+      <div class="ch"><span class="ct2">Calcolo IRES / IRAP</span></div>
+      <div class="fg f2"><div class="fi"><label>Anno</label><input id="ir-a" type="number" value="2026"/></div><div class="fi"><label>Ricavi €</label><input id="ir-r" type="number" value="0"/></div><div class="fi"><label>Costi deducibili €</label><input id="ir-c" type="number" value="0"/></div><div class="fi"><label>Ammortamenti €</label><input id="ir-m" type="number" value="0"/></div><div class="fi"><label>Perdite pregresse €</label><input id="ir-p" type="number" value="0"/></div><div class="fi"><label>Acconti IRES €</label><input id="ir-ac" type="number" value="0"/></div></div>
+      <div class="fs">IRAP</div>
+      <div class="fg f2"><div class="fi"><label>Val.prod.netta €</label><input id="ir-v" type="number" value="0"/></div><div class="fi"><label>Acconti IRAP €</label><input id="ir-ai" type="number" value="0"/></div></div>
+      <button class="btn pr" style="width:100%;margin-top:10px;" onclick="cIR()">Calcola</button>
+    </div>
+    <div id="ir-r"></div>
+  </div>
+</div>
+
+<!-- F24 -->
+<div id="p-f24" class="pg"><div id="f24-l"></div></div>
+
+<!-- MASTRO -->
+<div id="p-mas" class="pg">
+  <div class="g2">
+    <div class="cb"><div class="ch"><span class="ct2">Piano dei conti</span></div><div id="mas-l"></div></div>
+    <div class="cb"><div class="ch"><span class="ct2" id="mas-dt">Seleziona un conto</span></div><div id="mas-d"><div style="color:var(--t3);font-size:12px;">Clicca su un conto per vedere il saldo.</div></div></div>
+  </div>
+</div>
+
+<!-- SCADENZARIO -->
+<div id="p-sca" class="pg">
+  <div class="g2">
+    <div class="cb"><div class="ch"><span class="ct2">Crediti da incassare</span></div><div class="tw"><table><thead><tr><th>Scadenza</th><th>Soggetto</th><th>Importo</th><th>Stato</th><th></th></tr></thead><tbody id="t-cr"></tbody></table></div></div>
+    <div class="cb"><div class="ch"><span class="ct2">Debiti da pagare</span></div><div class="tw"><table><thead><tr><th>Scadenza</th><th>Soggetto</th><th>Importo</th><th>Stato</th><th></th></tr></thead><tbody id="t-de"></tbody></table></div></div>
+  </div>
+</div>
+
+<!-- BILANCIO -->
+<div id="p-bil" class="pg">
+  <div class="g2">
+    <div class="cb">
+      <div class="ch"><span class="ct2">Import bilancio PDF</span></div>
+      <div style="background:var(--bg3);border:1px dashed var(--b2);border-radius:var(--r2);padding:14px;text-align:center;margin-bottom:10px;">
+        <label style="cursor:pointer;"><span class="btn pr">📄 Carica PDF bilancio depositato</span><input type="file" id="bil-f" accept=".pdf" style="display:none;" onchange="hBil(this)"/></label>
+        <div style="font-size:10px;color:var(--t3);margin-top:7px;">Estrae SP, CE e calcola indici di bilancio automaticamente</div>
+      </div>
+      <div id="bil-s" style="font-size:12px;margin-bottom:8px;"></div>
+      <div class="fs">Stato patrimoniale — attivo</div>
+      <div class="fg f2"><div class="fi"><label>Immobilizzazioni €</label><input id="b-im" type="number" value="0"/></div><div class="fi"><label>Crediti v/clienti €</label><input id="b-cr" type="number" value="0"/></div><div class="fi"><label>Disponibilità liquide €</label><input id="b-li" type="number" value="0"/></div><div class="fi"><label>Rimanenze €</label><input id="b-ri" type="number" value="0"/></div></div>
+      <div class="fs">Stato patrimoniale — passivo</div>
+      <div class="fg f2"><div class="fi"><label>Capitale sociale €</label><input id="b-ca" type="number" value="10000"/></div><div class="fi"><label>Riserve €</label><input id="b-rs" type="number" value="0"/></div><div class="fi"><label>Debiti v/fornitori €</label><input id="b-df" type="number" value="0"/></div><div class="fi"><label>Debiti tributari €</label><input id="b-dt" type="number" value="0"/></div><div class="fi"><label>Debiti v/banche €</label><input id="b-db" type="number" value="0"/></div><div class="fi"><label>TFR €</label><input id="b-tf" type="number" value="0"/></div></div>
+      <div class="fs">Conto economico</div>
+      <div class="fg f2"><div class="fi"><label>Ricavi €</label><input id="b-rc" type="number" value="0"/></div><div class="fi"><label>Costi servizi €</label><input id="b-cs" type="number" value="0"/></div><div class="fi"><label>Costo personale €</label><input id="b-cp" type="number" value="0"/></div><div class="fi"><label>Ammortamenti €</label><input id="b-am" type="number" value="0"/></div><div class="fi"><label>Altri costi €</label><input id="b-ac" type="number" value="0"/></div><div class="fi"><label>Oneri finanziari €</label><input id="b-on" type="number" value="0"/></div></div>
+      <div style="display:flex;gap:7px;margin-top:10px;"><button class="btn pr" onclick="cBil()" style="flex:1;">Calcola indici</button><button class="btn" onclick="iBil()">→ Importa in IRES</button></div>
+    </div>
+    <div id="bil-r"></div>
+  </div>
+</div>
+
+  </div><!-- ct -->
+</div><!-- main -->
+</div><!-- app -->
+
+<!-- MODAL -->
+<div class="mo" id="mo"><div class="mb" id="mb"></div></div>
+
+<script>
+
+// ============================================================
+// DATABASE
+// ============================================================
+const DK='tm_v1', UK='tm_u_v1';
+
+const DEF_USERS=[
+  {id:1,u:'admin',p:'admin123',nome:'Amministratore',ruolo:'admin',perm:{all:true}},
+  {id:2,u:'marco',p:'marco123',nome:'Marco Russo',ruolo:'operatore',perm:{dash:1,cli:1,fatt:1,inc:1,forn:1,fp:1,acq:1,rit:1,af:0,ban:0,cas:1,pos:1,iv:0,ir:0,f24:0,mas:0,sca:1,bil:0}},
+  {id:3,u:'anna',p:'anna123',nome:'Anna Bianchi',ruolo:'lettura',perm:{dash:1,cli:1,fatt:1,inc:0,forn:1,fp:1,acq:0,rit:0,af:0,ban:0,cas:0,pos:0,iv:0,ir:0,f24:0,mas:0,sca:1,bil:0}}
+];
+
+function defDB(){return{
+  az:{nome:'Tour Operator Srl',piva:'01234567890',sede:'Taranto (TA)',sdi:'TM0001',pec:'to@pec.it'},
+  clienti:[
+    {id:1,nome:'Agenzia Rossi Srl',tipo:'agenzia',piva:'09876543210',sdi:'ABC1234',pec:'rossi@pec.it',paese:'IT',email:'rossi@viaggi.it',tel:'0612345678',note:''},
+    {id:2,nome:'Tour Dreams GmbH',tipo:'agenzia',piva:'DE123456789',sdi:'',pec:'',paese:'DE',email:'info@tourdreams.de',tel:'+4930123456',note:'Cliente UE'},
+    {id:3,nome:'Mario Bianchi',tipo:'privato',piva:'BNCMRA80A01H501Z',sdi:'0000000',pec:'',paese:'IT',email:'mario@email.it',tel:'3331234567',note:''}
+  ],
+  fatture:[
+    {id:1,num:'2026/001',data:'2026-01-15',cId:1,tipo:'intra',imp:4200,tot:4200,scad:'2026-02-15',stato:'pagato',note:'Roma-Barcellona 7gg'},
+    {id:2,num:'2026/002',data:'2026-02-10',cId:2,tipo:'extra',imp:8500,tot:8500,scad:'2026-03-10',stato:'attesa',note:'Safari Kenya 10gg'},
+    {id:3,num:'2026/003',data:'2026-03-05',cId:1,tipo:'mix',imp:6300,tot:6300,scad:'2026-04-05',stato:'attesa',note:'Grecia + Turchia'}
+  ],
+  incassi:[{id:1,data:'2026-02-14',cId:1,fn:'2026/001',imp:4200,conto:'Intesa SP',met:'bonifico',note:''}],
+  fornitori:[
+    {id:1,nome:'Hotel Colosseum Roma',tipo:'alloggio',piva:'01122334455',sdi:'XYZ9876',pec:'col@pec.it',paese:'IT',iban:'IT60X0542811101000001',rit:false,af:null},
+    {id:2,nome:'Safari Lodge Kenya Ltd',tipo:'serv.estero',piva:'KE987654',sdi:'',pec:'',paese:'KE',iban:'',rit:false,af:'td19',exCEE:true},
+    {id:3,nome:'Mario Verdi',tipo:'guida',piva:'VRDMRA75T01F839U',sdi:'0000000',pec:'mv@pec.it',paese:'IT',iban:'IT60X0542811101000002',rit:true,af:null}
+  ],
+  fp:[
+    {id:1,num:'ENEL-01/26',data:'2026-01-15',scad:'2026-02-05',forn:'Enel Energia SpA',piva:'15844561009',cat:'Bolletta energia elettrica',imp:185.24,aliq:10,iva:18.52,tot:203.76,ded:100,met:'SDD addebito diretto',stato:'pagata',note:'Ufficio'},
+    {id:2,num:'TIM-02/26',data:'2026-02-01',scad:'2026-02-25',forn:'TIM SpA',piva:'00488410010',cat:'Telefonia / Internet',imp:45,aliq:22,iva:9.90,tot:54.90,ded:80,met:'RID automatico',stato:'pagata',note:'Linea fissa'},
+    {id:3,num:'2026/015',data:'2026-02-10',scad:'2026-03-12',forn:'Studio Commercialisti',piva:'01234567891',cat:'Consulenza professionale',imp:1200,aliq:22,iva:264,tot:1464,ded:100,met:'Bonifico',stato:'da pagare',note:'Dichiarazione 2025'},
+    {id:4,num:'ENI-03/26',data:'2026-03-01',scad:'2026-03-20',forn:'Eni Gas e Luce',piva:'10238071007',cat:'Bolletta gas',imp:210.80,aliq:10,iva:21.08,tot:231.88,ded:100,met:'SDD addebito diretto',stato:'da pagare',note:''}
+  ],
+  acquisti:[
+    {id:1,data:'2026-01-10',fId:1,desc:'Soggiorno 7 notti x10 pax',tipo:'intra',imp:3000,iva:0,tot:3000,stato:'pagato'},
+    {id:2,data:'2026-02-05',fId:2,desc:'Safari 10gg',tipo:'extra',imp:6000,iva:0,tot:6000,stato:'attesa'},
+    {id:3,data:'2026-03-01',fId:3,desc:'Accompagnamento tour Roma',tipo:'intra',imp:500,iva:0,tot:500,stato:'pagato'}
+  ],
+  ritenute:[{id:1,data:'2026-03-01',fId:3,lordo:500,base:50,aliq:23,rit:57.50,netto:442.50,scad:'2026-04-16',vers:false}],
+  ritSub:[{id:1,data:'2026-03-15',comm:'MSC Crociere SpA',prov:2000,base:50,aliq:23,rit:230,netto:1770,note:'Commissioni marzo'}],
+  af:[
+    {id:1,num:'AF-2026-001',tipo:'td19',data:'2026-02-28',scad:'2026-03-15',fId:2,imp:6000,aliq:22,iva:1320,tot:7320,stato:'inviata',note:'Extra-UE Kenya'},
+    {id:2,num:'AF-2026-002',tipo:'td17',data:'2026-01-31',scad:'2026-02-15',fId:1,imp:3000,aliq:22,iva:660,tot:3660,stato:'accettata',note:'Intra-UE hotel'}
+  ],
+  banche:[
+    {id:1,nome:'Intesa SP principale',iban:'IT60X0542811101000001',si:15000},
+    {id:2,nome:'UniCredit operativo',iban:'IT60X0200811101000002',si:8000},
+    {id:3,nome:'Carta Corporate Visa',iban:'****4521',si:0}
+  ],
+  movb:[
+    {id:1,bId:1,data:'2026-02-14',desc:'Incasso fatt.2026/001',e:4200,u:0,cat:'incasso clienti',agg:'c1'},
+    {id:2,bId:1,data:'2026-03-01',desc:'Pag. Verdi Mario',e:0,u:442.50,cat:'pagamento fornitori',agg:'f3'},
+    {id:3,bId:2,data:'2026-03-05',desc:'Canone ufficio marzo',e:0,u:1200,cat:'spese generali',agg:null},
+    {id:4,bId:3,data:'2026-03-10',desc:'Spese vitto trasferta',e:0,u:45,cat:'spese trasferta',agg:null}
+  ],
+  cassa:[
+    {id:1,data:'2026-01-02',desc:'Fondo cassa iniziale',e:500,u:0},
+    {id:2,data:'2026-03-08',desc:'Rimborso spese',e:0,u:38}
+  ],
+  posT:[
+    {id:1,nome:'POS Front Office',prov:'Nexi',mid:'MID001',comm:1.5,conto:'Intesa SP principale'},
+    {id:2,nome:'POS Mobile',prov:'SumUp',mid:'MID002',comm:1.75,conto:'UniCredit operativo'}
+  ],
+  posTr:[
+    {id:1,data:'2026-03-10T10:32',tId:1,cId:1,imp:1200,circ:'Visa',u4:'4521',stato:'approvata',note:'Acconto Roma'},
+    {id:2,data:'2026-03-12T09:05',tId:2,cId:3,imp:450,circ:'Mastercard',u4:'8832',stato:'approvata',note:''}
+  ],
+  scad:[
+    {id:1,tipo:'credito',data:'2026-04-10',sogg:'Tour Dreams GmbH',imp:8500,stato:'attesa',note:'Fatt.2026/002'},
+    {id:2,tipo:'credito',data:'2026-05-05',sogg:'Agenzia Rossi Srl',imp:6300,stato:'attesa',note:'Fatt.2026/003'},
+    {id:3,tipo:'debito',data:'2026-04-30',sogg:'Safari Lodge Kenya',imp:6000,stato:'attesa',note:'Acq.feb'}
+  ],
+  f24:[
+    {id:1,trib:'IVA 74-ter',cod:'6031',imp:1840,scad:'2026-05-16',vers:false,note:'Liq.1°trim 2026'},
+    {id:2,trib:'Ritenute acconto',cod:'1040',imp:57.50,scad:'2026-04-16',vers:false,note:'Marzo 2026'},
+    {id:3,trib:'IRES acconto I rata',cod:'2002',imp:0,scad:'2026-06-30',vers:false,note:'Da calcolare'},
+    {id:4,trib:'IRAP acconto I rata',cod:'3812',imp:0,scad:'2026-06-30',vers:false,note:'Da calcolare'}
+  ],
+  bil:{},
+  nx:{cli:4,fatt:4,inc:2,forn:4,fp:5,acq:4,rit:2,rs:2,af:3,movb:5,cas:3,pos:3,posT:3,scad:4,f24:5}
+};}
+
+let DB=lDB(), USERS=lU(), CU=null, cBId=1, biBuf=[];
+function lDB(){try{const r=localStorage.getItem(DK);if(r)return JSON.parse(r);}catch(e){}return defDB();}
+function lU(){try{const r=localStorage.getItem(UK);if(r)return JSON.parse(r);}catch(e){}return DEF_USERS;}
+function sDB(){try{localStorage.setItem(DK,JSON.stringify(DB));}catch(e){alert('Errore salvataggio: '+e.message);}}
+function sU(){try{localStorage.setItem(UK,JSON.stringify(USERS));}catch(e){}}
+
+// ============================================================
+// UTILS
+// ============================================================
+const F=n=>'€ '+parseFloat(n||0).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
+const FD=d=>{if(!d)return'—';try{return new Date(d.length===10?d+'T00:00:00':d).toLocaleDateString('it-IT');}catch(e){return d;}};
+const TD=new Date(), TS=TD.toISOString().slice(0,10);
+const G=id=>document.getElementById(id);
+const V=id=>{const e=G(id);return e?e.value:'';};
+const VS=(id,v)=>{const e=G(id);if(e&&(parseFloat(e.value)||0)===0)e.value=v;};
+function iSc(ds,stato){if(!ds||['pagato','pagata','versato','versata'].includes(stato))return false;return new Date(ds.length===10?ds+'T00:00:00':ds)<TD;}
+function aN(){const y=TD.getFullYear();return`${y}/${String(DB.fatture.length+1).padStart(3,'0')}`;}
+function pIF(s){if(!s&&s!==0)return 0;s=String(s).replace(/[€\s]/g,'').trim();if(!s||s==='-')return 0;if(/\d\.\d{3},\d{2}$/.test(s))s=s.replace(/\./g,'').replace(',','.');else if(/\d,\d{3}\.\d{2}$/.test(s))s=s.replace(/,/g,'');else s=s.replace(',','.');const n=parseFloat(s);return isNaN(n)?0:n;}
+function nD(s){if(!s)return'';s=s.trim();let m=s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/);if(m){let y=parseInt(m[3]);if(y<100)y+=2000;return`${y}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;}m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(m)return s;return'';}
+function sCSV(l,sep){const r=[];let c='',q=false;for(let i=0;i<l.length;i++){if(l[i]==='"')q=!q;else if(l[i]===sep&&!q){r.push(c);c='';}else c+=l[i];}r.push(c);return r;}
+
+// ============================================================
+// AUTH
+// ============================================================
+function login(){
+  const u=V('lu').trim(),p=V('lp').trim();
+  const usr=USERS.find(x=>x.u===u&&x.p===p);
+  if(!usr){G('ae').style.display='block';return;}
+  CU=usr;G('au').style.display='none';G('app').style.display='flex';
+  G('su').innerHTML=`<div><div style="font-size:11px;font-weight:500;">${usr.nome}</div><div style="font-size:9px;color:var(--t3);">${usr.ruolo.toUpperCase()}</div></div><button class="btn sm dl" onclick="location.reload()">Esci</button>`;
+  if(usr.ruolo!=='admin'){document.querySelectorAll('.ni').forEach(ni=>{const m=ni.getAttribute('onclick')?.match(/nav\('(\w+)'\)/);if(m&&!cA(m[1]))ni.style.display='none';});}
+  iAl();nav('dash');
+}
+function cA(p){if(!CU)return false;if(CU.perm.all)return true;return !!CU.perm[p];}
+function cW(){return CU&&(CU.perm.all||CU.ruolo==='operatore');}
+
+// ============================================================
+// ALERTS
+// ============================================================
+function iAl(){
+  const al=[];
+  const in7=new Date(TD);in7.setDate(in7.getDate()+7);
+  const in1=new Date(TD);in1.setDate(in1.getDate()+1);
+  // F24
+  (DB.f24||[]).filter(f=>!f.vers&&f.imp>0).forEach(f=>{const d=new Date(f.scad+'T00:00:00');if(d<=in7){const dif=Math.ceil((d-TD)/864e5);al.push({t:dif<=0?'r':'a',m:`F24 ${f.trib} ${F(f.imp)} scade ${dif<=0?'SCADUTO':'tra '+dif+'gg'}`,p:'f24'});}});
+  // FP scadute
+  const fps=(DB.fp||[]).filter(f=>f.stato==='da pagare'&&iSc(f.scad,f.stato));
+  if(fps.length)al.push({t:'r',m:`${fps.length} fatt.passive scadute (${F(fps.reduce((s,f)=>s+parseFloat(f.tot||0),0))})`,p:'fp'});
+  // AF da inviare
+  const afd=(DB.af||[]).filter(a=>a.stato==='da inviare'&&new Date(a.scad+'T00:00:00')<=in7);
+  if(afd.length)al.push({t:'a',m:`${afd.length} autofatture da inviare allo SDI`,p:'af'});
+  // Ritenute
+  const rtd=(DB.ritenute||[]).filter(r=>!r.vers);
+  if(rtd.length)al.push({t:'a',m:`Ritenute da versare: ${F(rtd.reduce((s,r)=>s+parseFloat(r.rit||0),0))}`,p:'rit'});
+  // Movimenti non agganciati
+  const na=(DB.movb||[]).filter(m=>!m.agg).length;
+  if(na>5)al.push({t:'b',m:`${na} movimenti bancari non agganciati`,p:'ban'});
+  // Anomalia IVA 74-ter
+  const ri=(DB.fatture||[]).filter(f=>f.tipo==='intra').reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  const ci=(DB.acquisti||[]).filter(a=>a.tipo==='intra').reduce((s,a)=>s+parseFloat(a.imp||0),0);
+  if(ri>0&&ci>ri)al.push({t:'a',m:'Anomalia: costi intra-UE > ricavi — verificare registro 74-ter',p:'iv'});
+  const bar=G('alb');
+  if(!al.length){bar.style.display='none';return;}
+  bar.style.display='flex';
+  bar.innerHTML='<span style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;">Alert:</span>'+al.map(a=>`<div class="ap ${a.t}" onclick="nav('${a.p}')">${a.m}</div>`).join('');
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+const PT={dash:'Dashboard',cli:'Clienti / Agenzie',fatt:'Fatture emesse',inc:'Incassi',forn:'Fornitori',fp:'Fatture passive & Spese',acq:'Registro acquisti',rit:"Ritenute d'acconto",af:'Autofatture TD17/TD18/TD19',ban:'Conti bancari & estratti',cas:'Cassa contanti',pos:'Pagamenti POS',iv:'IVA 74-ter / Margine globale',ir:'IRES / IRAP',f24:'Scadenzario F24',mas:'Piano dei conti',sca:'Scadenzario generale',bil:'Bilancio depositato'};
+const PA={cli:()=>`<button class="btn pr" onclick="oM('cli')">+ Cliente</button>`,fatt:()=>`<button class="btn pr" onclick="oM('fatt')">+ Fattura</button>`,inc:()=>`<button class="btn pr" onclick="oM('inc')">+ Incasso</button>`,forn:()=>`<button class="btn" onclick="oM('cf')" style="margin-right:4px;">🧮 Calc.CF</button><button class="btn" onclick="oM('forn',null,1)" style="margin-right:4px;">🌍 Extra-CEE</button><button class="btn pr" onclick="oM('forn')">+ Fornitore</button>`,acq:()=>`<button class="btn pr" onclick="oM('acq')">+ Acquisto</button>`,rit:()=>`<button class="btn pr" onclick="oM('rit')">+ Ritenuta</button>`,af:()=>`<button class="btn pr" onclick="oM('af')">+ Autofattura</button>`,cas:()=>`<button class="btn pr" onclick="oM('cas')">+ Movimento</button>`,pos:()=>`<button class="btn pr" onclick="oM('pos')">+ Transazione</button>`,f24:()=>`<button class="btn pr" onclick="oM('f24')">+ F24</button>`,sca:()=>`<button class="btn pr" onclick="oM('sca')">+ Scadenza</button>`,fp:()=>`<button class="btn pr" onclick="oM('fp')">+ Manuale</button>`};
+
+function nav(p){
+  if(!cA(p)&&p!=='dash'){alert('Accesso non autorizzato.');return;}
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
+  const el=G('p-'+p);if(el)el.classList.add('on');
+  document.querySelectorAll('.ni').forEach(n=>{const m=n.getAttribute('onclick')?.match(/nav\('(\w+)'\)/);if(m&&m[1]===p)n.classList.add('on');});
+  G('pt').textContent=PT[p]||p;
+  const ta=G('ta');ta.innerHTML=`<span style="font-size:10px;color:var(--t3);font-family:var(--mo);background:var(--bg3);padding:2px 8px;border-radius:4px;border:1px solid var(--b);">ART.74-TER</span>`;
+  if(PA[p]&&cW())ta.innerHTML=PA[p]()+' '+ta.innerHTML;
+  const R={dash:rDash,cli:rCli,fatt:rFatt,inc:rInc,forn:rForn,fp:rFP,acq:rAcq,rit:rRit,af:rAF,ban:rBan,cas:rCas,pos:rPOS,iv:()=>{},ir:()=>{},f24:rF24,mas:rMas,sca:rSca,bil:()=>{}};
+  if(R[p])R[p]();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function rDash(){
+  const tF=(DB.fatture||[]).reduce((s,f)=>s+parseFloat(f.tot||0),0);
+  const tFP=(DB.fp||[]).reduce((s,f)=>s+parseFloat(f.tot||0),0);
+  const cA2=(DB.scad||[]).filter(s=>s.tipo==='credito'&&s.stato!=='pagato').reduce((s,x)=>s+parseFloat(x.imp||0),0);
+  const dA=(DB.scad||[]).filter(s=>s.tipo==='debito'&&s.stato!=='pagato').reduce((s,x)=>s+parseFloat(x.imp||0),0);
+  const sB=(DB.banche||[]).reduce((s,b)=>s+parseFloat(b.si||0)+(DB.movb||[]).filter(m=>m.bId===b.id).reduce((ss,m)=>ss+parseFloat(m.e||0)-parseFloat(m.u||0),0),0);
+  G('kg').innerHTML=`<div class="kp"><div class="kl">Fatturato</div><div class="kv" style="color:var(--ac)">${F(tF)}</div><div class="ks">${(DB.fatture||[]).length} fatture</div></div><div class="kp"><div class="kl">Spese passivi</div><div class="kv" style="color:var(--am)">${F(tFP)}</div><div class="ks">${(DB.fp||[]).length} documenti</div></div><div class="kp"><div class="kl">Crediti aperti</div><div class="kv" style="color:var(--gr)">${F(cA2)}</div><div class="ks">da incassare</div></div><div class="kp"><div class="kl">Debiti aperti</div><div class="kv" style="color:var(--re)">${F(dA)}</div><div class="ks">da pagare</div></div><div class="kp"><div class="kl">Liquidità banche</div><div class="kv" style="color:var(--pu)">${F(sB)}</div><div class="ks">${(DB.banche||[]).length} conti</div></div>`;
+  G('d-fatt').innerHTML=[...(DB.fatture||[])].reverse().slice(0,5).map(f=>{const cl=(DB.clienti||[]).find(c=>c.id===f.cId);const st=iSc(f.scad,f.stato)?'scaduto':f.stato;return`<tr><td class="n">${f.num}</td><td>${cl?cl.nome:'—'}</td><td class="n">${F(f.tot)}</td><td><span class="bx b${st==='pagato'?'g':st==='scaduto'?'r':'a'}">${st}</span></td></tr>`;}).join('')||`<tr><td colspan="4" class="er">Nessuna fattura</td></tr>`;
+  G('d-sp').innerHTML=[...(DB.fp||[])].reverse().slice(0,4).map(f=>{const st=iSc(f.scad,f.stato)?'scaduta':f.stato;return`<tr><td>${f.forn}</td><td style="font-size:10px;color:var(--t3);">${f.cat}</td><td class="n">${F(f.tot)}</td><td><span class="bx b${st==='pagata'?'g':st==='scaduta'?'r':'a'}">${st}</span></td></tr>`;}).join('')||`<tr><td colspan="4" class="er">Nessuna spesa</td></tr>`;
+  G('d-ban').innerHTML=(DB.banche||[]).map(b=>{const s=parseFloat(b.si||0)+(DB.movb||[]).filter(m=>m.bId===b.id).reduce((ss,m)=>ss+parseFloat(m.e||0)-parseFloat(m.u||0),0);return`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--b);"><div><div style="font-size:12px;font-weight:500;">${b.nome}</div><div style="font-size:10px;color:var(--t3);font-family:var(--mo);">${b.iban}</div></div><div style="font-family:var(--mo);font-size:13px;font-weight:600;color:${s>=0?'var(--gr)':'var(--re)'};">${F(s)}</div></div>`;}).join('');
+  const f24p=(DB.f24||[]).filter(f=>!f.vers&&f.imp>0).sort((a,b)=>new Date(a.scad)-new Date(b.scad)).slice(0,4);
+  G('d-f24').innerHTML=f24p.length?f24p.map(f=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--b);"><div><div style="font-size:12px;font-weight:500;">${f.trib}</div><div style="font-size:10px;color:var(--t3);">cod.${f.cod} · ${f.note}</div></div><div style="text-align:right;"><div style="font-family:var(--mo);font-size:12px;color:var(--re);">${F(f.imp)}</div><div style="font-size:10px;color:${iSc(f.scad,'attesa')?'var(--re)':'var(--t3)'};">${FD(f.scad)}</div></div></div>`).join(''):`<div style="color:var(--t3);font-size:12px;padding:8px 0;">Nessuna scadenza urgente</div>`;
+  lNews();
+}
+
+// NOTIZIE FISCALI
+const NWS=[
+  {d:'2026-03-10',f:'Agenzia delle Entrate',h:'Ritenuta provvigioni agenzie viaggio — dal 1° maggio 2026',b:"L.199/2025: ritenuta 23% su 50% delle provvigioni (senza dipendenti) o su 20% (con dipendenti). F24 cod.1040 entro il 16 del mese successivo. Inviare dichiarazione scritta al committente.",urg:true},
+  {d:'2026-02-20',f:'MEF',h:'Proroga al 1° maggio 2026',b:"Il MEF ha prorogato l'entrata in vigore della ritenuta sulle provvigioni da agenzie di viaggio dal 1° marzo al 1° maggio 2026.",urg:true},
+  {d:'2026-01-15',f:'AdE',h:'IVA 74-ter confermata per 2026',b:'Regime speciale art.74-ter DPR 633/72 confermato invariato. Metodo globale o analitico invariato. Aliquota 22%.',urg:false},
+  {d:'2025-12-20',f:'Legge di Bilancio 2026',h:'Ritenuta B2B su fatture tra imprese — dal 2028',b:"L.199/2025: ritenuta 0,5% (2028) e 1% (dal 2029) su transazioni B2B. Non operativa nel 2026. Da monitorare.",urg:false},
+  {d:'2025-11-10',f:'AdE',h:'FatturaPA obbligatoria — nessuna modifica 2026',b:'Obbligo fattura elettronica SDI invariato. Conservazione digitale 10 anni. Nessuna novità per il 2026.',urg:false}
+];
+function lNews(){
+  G('nts').textContent='Agg. '+FD(NWS[0].d);
+  G('d-news').innerHTML=NWS.slice(0,5).map(n=>`<div style="padding:7px 0;border-bottom:1px solid var(--b);"><div style="display:flex;align-items:center;gap:5px;margin-bottom:2px;">${n.urg?'<span class="bx br" style="font-size:9px;">URGENTE</span>':''}<span style="font-size:10px;color:var(--t3);">${FD(n.d)} · ${n.f}</span></div><div style="font-size:12px;font-weight:500;margin-bottom:2px;">${n.h}</div><div style="font-size:11px;color:var(--t3);">${n.b}</div></div>`).join('');
+}
+
+// ============================================================
+// CLIENTI
+// ============================================================
+function rCli(){
+  const q=(V('sc')||'').toLowerCase(),ft=V('sc-t');
+  const l=(DB.clienti||[]).filter(c=>(!q||(c.nome+c.piva+(c.sdi||'')).toLowerCase().includes(q))&&(!ft||c.tipo===ft));
+  G('t-cli').innerHTML=l.length?l.map(c=>`<tr><td style="font-weight:500;">${c.nome}</td><td><span class="bx b${c.tipo==='agenzia'?'b':'t'}">${c.tipo}</span></td><td class="n">${c.piva||'—'}</td><td class="n" style="font-size:10px;">${c.sdi?`<span class="bx bt">${c.sdi}</span>`:''}</td><td style="font-size:10px;color:var(--t3);">${c.pec||'—'}</td><td>${c.paese||'IT'}</td><td>${c.email||'—'}</td><td>${c.tel||'—'}</td><td style="display:flex;gap:3px;"><button class="btn sm" onclick="oM('cli',${c.id})">Mod.</button>${cW()?`<button class="btn sm dl" onclick="dR('clienti',${c.id},rCli)">Del</button>`:''}</td></tr>`).join(''):`<tr><td colspan="9" class="er">Nessun cliente</td></tr>`;
+}
+
+// ============================================================
+// FATTURE
+// ============================================================
+function rFatt(){
+  const q=(V('sf')||'').toLowerCase(),ft=V('sf-t'),fs=V('sf-s');
+  const l=(DB.fatture||[]).filter(f=>{const cl=(DB.clienti||[]).find(c=>c.id===f.cId);if(q&&!(f.num+((cl&&cl.nome)||'')).toLowerCase().includes(q))return false;if(ft&&f.tipo!==ft)return false;const st=iSc(f.scad,f.stato)?'scaduto':f.stato;if(fs&&st!==fs)return false;return true;});
+  G('t-fatt').innerHTML=l.length?l.map(f=>{const cl=(DB.clienti||[]).find(c=>c.id===f.cId);const st=iSc(f.scad,f.stato)?'scaduto':f.stato;return`<tr><td class="n">${f.num}</td><td>${FD(f.data)}</td><td>${cl?cl.nome:'—'}</td><td><span class="bx b${f.tipo==='intra'?'g':f.tipo==='extra'?'p':'a'}">${f.tipo}</span></td><td class="n">${F(f.imp)}</td><td class="n">${F(f.tot)}</td><td style="color:${iSc(f.scad,f.stato)?'var(--re)':'var(--t2)'};">${FD(f.scad)}</td><td><span class="bx b${st==='pagato'?'g':st==='scaduto'?'r':'a'}">${st}</span></td><td style="display:flex;gap:3px;"><button class="btn sm" onclick="oM('fatt',${f.id})">Mod.</button>${cW()?`<button class="btn sm dl" onclick="dR('fatture',${f.id},rFatt)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="9" class="er">Nessuna fattura</td></tr>`;
+}
+
+// ============================================================
+// INCASSI
+// ============================================================
+function rInc(){
+  const q=(V('si')||'').toLowerCase();
+  const l=(DB.incassi||[]).filter(i=>{const cl=(DB.clienti||[]).find(c=>c.id===i.cId);return !q||(cl&&cl.nome.toLowerCase().includes(q))||(i.note||'').toLowerCase().includes(q);});
+  G('t-inc').innerHTML=l.length?l.map(i=>{const cl=(DB.clienti||[]).find(c=>c.id===i.cId);return`<tr><td>${FD(i.data)}</td><td>${cl?cl.nome:'—'}</td><td class="n">${i.fn||'—'}</td><td class="n" style="color:var(--gr)">${F(i.imp)}</td><td>${i.conto||'—'}</td><td><span class="bx bb">${i.met||'—'}</span></td><td style="color:var(--t3);">${i.note||''}</td><td>${cW()?`<button class="btn sm dl" onclick="dR('incassi',${i.id},rInc)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="8" class="er">Nessun incasso</td></tr>`;
+}
+
+// ============================================================
+// FORNITORI
+// ============================================================
+function rForn(){
+  const q=(V('sfo')||'').toLowerCase(),fp=V('sfo-p');
+  const l=(DB.fornitori||[]).filter(f=>{if(q&&!(f.nome+(f.piva||'')+(f.sdi||'')).toLowerCase().includes(q))return false;if(fp==='IT'&&f.paese!=='IT')return false;if(fp==='UE'&&(f.paese==='IT'||f.exCEE))return false;if(fp==='EX'&&!f.exCEE)return false;return true;});
+  G('t-forn').innerHTML=l.length?l.map(f=>`<tr><td style="font-weight:500;">${f.nome}${f.exCEE?'<span class="bx bp" style="margin-left:5px;font-size:9px;">Extra-CEE</span>':''}</td><td><span class="bx bz">${f.tipo||'—'}</span></td><td class="n">${f.piva||'—'}</td><td class="n" style="font-size:10px;">${f.sdi?`<span class="bx bt">${f.sdi}</span>`:''} <span style="color:var(--t3);">${f.pec||''}</span></td><td>${f.paese||'IT'}</td><td class="n" style="font-size:9px;">${f.iban||'—'}</td><td>${f.rit?'<span class="bx ba">Sì 20%</span>':'<span class="bx bz">No</span>'}</td><td>${f.af?`<span class="bx bp">${f.af.toUpperCase()}</span>`:'<span class="bx bz">—</span>'}</td><td style="display:flex;gap:3px;"><button class="btn sm" onclick="oM('forn',${f.id})">Mod.</button>${cW()?`<button class="btn sm dl" onclick="dR('fornitori',${f.id},rForn)">Del</button>`:''}</td></tr>`).join(''):`<tr><td colspan="9" class="er">Nessun fornitore</td></tr>`;
+}
+
+// ============================================================
+// FATTURE PASSIVE
+// ============================================================
+const CD={'Bolletta energia elettrica':{d:100,a:10},'Bolletta gas':{d:100,a:10},'Bolletta acqua':{d:100,a:10},'Telefonia / Internet':{d:80,a:22},'Affitto ufficio':{d:100,a:0},'Assicurazione':{d:100,a:0},'Consulenza professionale':{d:100,a:22},'Acquisto servizi turistici':{d:100,a:22},'Carburante / Auto':{d:40,a:22},'Software / Licenze':{d:100,a:22},'Pubblicità / Marketing':{d:100,a:22},'Materiale ufficio':{d:100,a:22},'Spese bancarie':{d:100,a:0},'Altro':{d:100,a:22}};
+function rFP(){
+  if(!DB.fp)DB.fp=[];
+  const q=(V('s-fp')||'').toLowerCase(),fc=V('s-fpc'),fs=V('s-fps');
+  const l=DB.fp.filter(f=>{if(q&&!(f.forn+f.cat+(f.num||'')).toLowerCase().includes(q))return false;if(fc&&f.cat!==fc)return false;const st=iSc(f.scad,f.stato)?'scaduta':f.stato;if(fs&&st!==fs)return false;return true;});
+  const ti=l.reduce((s,f)=>s+parseFloat(f.imp||0),0),tv=l.reduce((s,f)=>s+parseFloat(f.iva||0),0),tdp=l.filter(f=>f.stato!=='pagata').reduce((s,f)=>s+parseFloat(f.tot||0),0),tcd=l.reduce((s,f)=>s+parseFloat(f.imp||0)*parseFloat(f.ded||100)/100,0);
+  G('fp-kpi').innerHTML=`<div class="kp"><div class="kl">Imponibile</div><div class="kv" style="color:var(--am)">${F(ti)}</div></div><div class="kp"><div class="kl">IVA detraibile</div><div class="kv" style="color:var(--gr)">${F(tv)}</div></div><div class="kp"><div class="kl">Da pagare</div><div class="kv" style="color:var(--re)">${F(tdp)}</div></div><div class="kp"><div class="kl">Costo deducibile</div><div class="kv" style="color:var(--pu)">${F(tcd)}</div></div>`;
+  G('t-fp').innerHTML=l.length?l.map(f=>{const st=iSc(f.scad,f.stato)?'scaduta':f.stato;return`<tr><td class="n" style="font-size:10px;">${f.num||'—'}</td><td>${FD(f.data)}</td><td style="font-weight:500;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.forn}</td><td><span class="bx bz" style="font-size:9px;">${f.cat}</span></td><td class="n">${F(f.imp)}</td><td class="n" style="color:var(--am)">${F(f.iva)}</td><td class="n" style="font-weight:500;">${F(f.tot)}</td><td class="n" style="color:${parseFloat(f.ded||100)<100?'var(--am)':'var(--t3)'};">${f.ded||100}%</td><td style="color:${st==='scaduta'?'var(--re)':'var(--t2)'};">${FD(f.scad)}</td><td><span class="bx b${st==='pagata'?'g':st==='scaduta'?'r':'a'}">${st}</span></td><td style="display:flex;gap:3px;">${st!=='pagata'?`<button class="btn sm ok" onclick="sgFP(${f.id})">Paga</button>`:''}<button class="btn sm" onclick="oM('fp',${f.id})">Mod.</button>${cW()?`<button class="btn sm dl" onclick="dR('fp',${f.id},rFP)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="11" class="er">Nessuna spesa</td></tr>`;
+  const bc={};l.forEach(f=>{const c=f.cat||'Altro';if(!bc[c])bc[c]={t:0,v:0,n:0};bc[c].t+=parseFloat(f.tot||0);bc[c].v+=parseFloat(f.iva||0);bc[c].n++;});
+  G('fp-rc').innerHTML=Object.entries(bc).sort((a,b)=>b[1].t-a[1].t).map(([c,d])=>`<div style="background:var(--bg3);border:1px solid var(--b);border-radius:var(--r);padding:9px 11px;"><div style="font-size:10px;font-weight:500;color:var(--t2);margin-bottom:3px;">${c}</div><div style="font-family:var(--mo);font-size:15px;font-weight:600;color:var(--am)">${F(d.t)}</div><div style="font-size:10px;color:var(--t3);">${d.n} doc · IVA ${F(d.v)}</div></div>`).join('')||'<div style="color:var(--t3);font-size:12px;">Nessun dato</div>';
+}
+function sgFP(id){const f=(DB.fp||[]).find(x=>x.id===id);if(f){f.stato='pagata';sDB();rFP();}}
+function cFP(){const i=parseFloat(V('fp-im'))||0,a=parseFloat(V('fp-al'))||22;const e=G('fp-iv');if(e)e.value=(i*a/100).toFixed(2);const t=G('fp-to');if(t)t.value=(i+i*a/100).toFixed(2);}
+
+// IMPORT FATTURA PASSIVA
+function hFP(inp){
+  const fi=inp.files[0];if(!fi)return;
+  const ext=fi.name.split('.').pop().toLowerCase();
+  G('fp-s').innerHTML='<span style="color:var(--am)">Analisi...</span>';
+  if(ext==='xml'){const r=new FileReader();r.onload=e=>{pFPX(e.target.result,fi.name);inp.value='';};r.readAsText(fi,'UTF-8');}
+  else if(ext==='pdf'){const r=new FileReader();r.onload=e=>{pFPP(new Uint8Array(e.target.result),fi.name);inp.value='';};r.readAsArrayBuffer(fi);}
+  else if(ext==='csv'){const r=new FileReader();r.onload=e=>{pFPC(e.target.result,fi.name);inp.value='';};r.readAsText(fi,'UTF-8');}
+  else if(ext==='xlsx'||ext==='xls'){const r=new FileReader();r.onload=e=>{pFPE(e.target.result,fi.name);inp.value='';};r.readAsArrayBuffer(fi);}
+}
+function pFPX(tx,fn){
+  try{const doc=(new DOMParser()).parseFromString(tx,'text/xml');const g=t=>doc.querySelector(t)?.textContent?.trim()||'';
+  const fo=g('Denominazione')||g('Nome')+' '+g('Cognome'),pi=g('IdCodice'),nm=g('Numero'),da=nD(g('Data'))||TS,sc=nD(g('DataScadenzaPagamento'))||'',im=parseFloat(g('ImponibileImporto'))||0,al=parseFloat(g('AliquotaIVA'))||22,iv=parseFloat(g('Imposta'))||im*al/100,to=parseFloat(g('ImportoTotaleDocumento'))||im+iv,ca=gCat(fo);
+  sFPF({fo,pi,nm,da,sc,ca,im,al,iv,to,no:'XML SDI'});G('fp-s').innerHTML=`<span style="color:var(--gr)">XML SDI: ${fo}</span>`;}catch(e){G('fp-s').innerHTML=`<span style="color:var(--re)">Errore XML: ${e.message}</span>`;}}
+function pFPP(by,fn){
+  let tx='';try{const s=new TextDecoder('latin1').decode(by);const m=s.match(/\(([^)]{1,100})\)/g)||[];tx=m.map(x=>x.slice(1,-1)).join(' ');}catch(e){}
+  if(!tx||tx.length<30){G('fp-s').innerHTML='<span style="color:var(--am)">PDF non testuale — compilare manualmente</span>';G('fp-form').style.display='block';return;}
+  const ep=ps=>{for(const p of ps){const m=tx.match(new RegExp(p,'i'));if(m)return m[1]?.trim()||'';}return'';};
+  const fo=ep(['cedente[:\\s]+([A-Za-zÀ-ú\\s.&,\']{4,50})','((?:Enel|Eni|TIM|Vodafone|Wind|Fastweb|Hera|A2A|Edison)[A-Za-z\\s.]*)'])||tx.split(' ').slice(0,4).join(' ');
+  const pi=ep(['[Pp]\\.?[Ii][Vv][Aa]\\s*[:\\s]*(\\d{11})']);
+  const nm=ep(['fattura n[°.\\s]*([A-Z0-9\\-/]{4,20})','bolletta n[°.\\s]*([A-Z0-9\\-/]{4,20})']);
+  const da=nD(ep(['(\\d{2}/\\d{2}/\\d{4})']))||TS;
+  const sc=nD(ep(['scadenza[:\\s]*(\\d{1,2}[/\\-.](\\d{1,2})[/\\-.](\\d{2,4}))']))||'';
+  const tm=tx.match(/totale[a-z\s]*€?\s*(\d{1,6}[.,]\d{2})/i)||tx.match(/€\s*(\d{1,6}[.,]\d{2})/i);
+  const to=tm?pIF(tm[1]):0,al=22,iv=to*(al/(100+al)),im=to-iv;
+  const ca=gCat(fo);const de=(CD[ca]||{d:100}).d;
+  sFPF({fo,pi,nm,da,sc,ca,im,al,iv,to,de,no:'PDF'});
+  G('fp-s').innerHTML=`<span style="color:var(--gr)">PDF: ${fo||'—'} | ${F(to)}</span>`;
+}
+function pFPC(tx,fn){
+  const ln=tx.split(/\r?\n/).filter(l=>l.trim());if(ln.length<2){G('fp-s').innerHTML='<span style="color:var(--re)">CSV vuoto</span>';return;}
+  const sep=ln[0].includes(';')?';':',';const h=ln[0].split(sep).map(x=>x.replace(/"/g,'').trim().toLowerCase());
+  const row=ln[1].split(sep).map(x=>x.replace(/"/g,'').trim());
+  const g=cs=>{for(const c of cs){const i=h.findIndex(x=>x.includes(c));if(i>=0)return row[i]||'';}return'';};
+  const fo=g(['fornitore','denominazione','emittente']);const to=pIF(g(['totale','total','importo']));
+  const im=pIF(g(['imponibile','base']))||to/1.22,iv=pIF(g(['iva','imposta']))||im*0.22;
+  sFPF({fo,pi:g(['piva','partita']),nm:g(['numero','fattura']),da:nD(g(['data','date']))||TS,sc:nD(g(['scadenza','scad']))||'',ca:gCat(fo),im,al:22,iv,to:to||im+iv,no:'CSV'});
+  G('fp-s').innerHTML=`<span style="color:var(--gr)">CSV letto</span>`;
+}
+function pFPE(buf,fn){
+  if(typeof XLSX!=='undefined'){_pFPE(buf,fn);}else{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=()=>_pFPE(buf,fn);document.head.appendChild(s);}
+}
+function _pFPE(buf,fn){try{const wb=XLSX.read(buf,{type:'arraybuffer'});const ws=wb.Sheets[wb.SheetNames[0]];const d=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});if(d.length<2)return;const fl=d.flat().map(c=>String(c));const fv=l=>{const i=fl.findIndex(c=>c.toLowerCase().includes(l));if(i<0)return'';for(let j=i+1;j<Math.min(i+5,fl.length);j++)if(fl[j].trim())return fl[j];return'';};const fo=fv('fornitore')||fv('emittente');const to=pIF(fl.find(c=>/^\d{1,5}[.,]\d{2}$/.test(c.replace(/[€\s]/g,'')))||'0');sFPF({fo,pi:'',nm:'',da:TS,sc:'',ca:gCat(fo),im:to/1.22,al:22,iv:to/1.22*0.22,to,no:'Excel'});G('fp-s').innerHTML=`<span style="color:var(--gr)">Excel letto</span>`;}catch(e){G('fp-s').innerHTML=`<span style="color:var(--re)">Err: ${e.message}</span>`;}}
+function gCat(n){if(!n)return'Altro';const x=n.toLowerCase();if(/enel|a2a|acea|hera|edison|energia|luce|elettric/.test(x))return'Bolletta energia elettrica';if(/eni|italgas|gas|naturgas/.test(x))return'Bolletta gas';if(/acqua|idrico|acquedotto/.test(x))return'Bolletta acqua';if(/tim|telecom|vodafone|wind|fastweb|iliad|fibra|internet|telefon/.test(x))return'Telefonia / Internet';if(/assicuraz|generali|allianz|axa|unipol/.test(x))return'Assicurazione';if(/affitto|locazione|canone|immobili/.test(x))return'Affitto ufficio';if(/commerciali|ragioniere|avvocato|notaio|studio|consulen/.test(x))return'Consulenza professionale';if(/eni|agip|q8|benzina|carburante/.test(x))return'Carburante / Auto';if(/microsoft|adobe|software|saas|cloud/.test(x))return'Software / Licenze';if(/hotel|safari|crocier|volo|tour|viaggi/.test(x))return'Acquisto servizi turistici';return'Altro';}
+function sFPF(d){
+  G('fp-form').style.display='block';
+  const s=(id,v)=>{const e=G(id);if(e&&v!==undefined&&v!=='')e.value=v;};
+  s('fp-n',d.fo);s('fp-pi',d.pi);s('fp-nm',d.nm);s('fp-d',d.da);s('fp-sc',d.sc);s('fp-no',d.no);
+  s('fp-im',(d.im||0).toFixed(2));s('fp-iv',(d.iv||0).toFixed(2));s('fp-to',(d.to||0).toFixed(2));
+  const ce=G('fp-c');if(ce&&d.ca)ce.value=d.ca;
+  const ae=G('fp-al');if(ae&&d.al!==undefined)ae.value=d.al;
+  const de=G('fp-de');if(de&&d.de!==undefined)de.value=d.de;
+  G('fp-form').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function sFP(){
+  if(!DB.fp)DB.fp=[];
+  const im=parseFloat(V('fp-im'))||0,al=parseFloat(V('fp-al'))||22,iv=im*al/100;
+  const o={id:DB.nx.fp++,num:V('fp-nm')||'FP-'+TS,data:V('fp-d')||TS,scad:V('fp-sc'),forn:V('fp-n'),piva:V('fp-pi'),cat:V('fp-c'),imp:im,aliq:al,iva:parseFloat(V('fp-iv'))||iv,tot:parseFloat(V('fp-to'))||im+iv,ded:parseFloat(V('fp-de'))||100,met:V('fp-me'),stato:'da pagare',note:V('fp-no')};
+  if(!o.forn)return alert('Inserisci il fornitore');
+  DB.fp.push(o);sDB();G('fp-form').style.display='none';G('fp-s').innerHTML='<span style="color:var(--gr)">Salvata</span>';rFP();
+}
+
+// ============================================================
+// ACQUISTI
+// ============================================================
+function rAcq(){
+  const q=(V('sa')||'').toLowerCase(),at=V('sa-t');
+  const l=(DB.acquisti||[]).filter(a=>{const fo=(DB.fornitori||[]).find(f=>f.id===a.fId);if(q&&!(fo&&fo.nome.toLowerCase().includes(q))&&!(a.desc||'').toLowerCase().includes(q))return false;if(at&&a.tipo!==at)return false;return true;});
+  G('t-acq').innerHTML=l.length?l.map(a=>{const fo=(DB.fornitori||[]).find(f=>f.id===a.fId);return`<tr><td>${FD(a.data)}</td><td>${fo?fo.nome:'—'}</td><td>${a.desc||'—'}</td><td><span class="bx b${a.tipo==='intra'?'g':'p'}">${a.tipo}</span></td><td class="n">${F(a.imp)}</td><td class="n">${F(a.iva)}</td><td class="n">${F(a.tot)}</td><td><span class="bx b${a.stato==='pagato'?'g':'a'}">${a.stato}</span></td><td style="display:flex;gap:3px;"><button class="btn sm" onclick="oM('acq',${a.id})">Mod.</button>${cW()?`<button class="btn sm dl" onclick="dR('acquisti',${a.id},rAcq)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="9" class="er">Nessun acquisto</td></tr>`;
+}
+
+// ============================================================
+// RITENUTE
+// ============================================================
+function rRit(){
+  G('t-rit').innerHTML=(DB.ritenute||[]).length?(DB.ritenute||[]).map(r=>{const fo=(DB.fornitori||[]).find(f=>f.id===r.fId);return`<tr><td>${FD(r.data)}</td><td>${fo?fo.nome:'—'}</td><td class="n">${F(r.lordo)}</td><td class="n">${r.base||50}%</td><td class="n">${r.aliq||23}%</td><td class="n" style="color:var(--re)">${F(r.rit)}</td><td class="n">${F(r.netto)}</td><td style="color:${iSc(r.scad,'attesa')?'var(--re)':'var(--t2)'};">${FD(r.scad)}</td><td><span class="bx b${r.vers?'g':'a'}">${r.vers?'Versata':'Da versare'}</span></td><td style="display:flex;gap:3px;"><button class="btn sm" onclick="tRit(${r.id})">${r.vers?'Riapri':'Versa'}</button>${cW()?`<button class="btn sm dl" onclick="dR('ritenute',${r.id},rRit)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="10" class="er">Nessuna ritenuta</td></tr>`;
+  const dv=(DB.ritenute||[]).filter(r=>!r.vers).reduce((s,r)=>s+parseFloat(r.rit||0),0);
+  const vv=(DB.ritenute||[]).filter(r=>r.vers).reduce((s,r)=>s+parseFloat(r.rit||0),0);
+  G('rit-sum').innerHTML=`<div style="display:flex;gap:16px;padding:8px 0;"><div><div style="font-size:10px;color:var(--t3);">Da versare</div><div style="font-family:var(--mo);font-size:17px;color:var(--re);">${F(dv)}</div></div><div><div style="font-size:10px;color:var(--t3);">Versate</div><div style="font-family:var(--mo);font-size:17px;color:var(--gr);">${F(vv)}</div></div></div>`;
+  G('rit-sub').innerHTML=(DB.ritSub||[]).length?(DB.ritSub||[]).map(r=>`<div style="padding:6px 0;border-bottom:1px solid var(--b);"><div style="font-size:12px;font-weight:500;">${r.comm}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);"><span>${FD(r.data)} · Provv. ${F(r.prov)}</span><span style="color:var(--re);">-${F(r.rit)}</span></div></div>`).join(''):`<div style="color:var(--t3);font-size:12px;padding:8px 0;">Nessuna ritenuta subita registrata</div>`;
+}
+function tRit(id){const r=(DB.ritenute||[]).find(x=>x.id===id);if(r){r.vers=!r.vers;sDB();rRit();}}
+
+// ============================================================
+// AUTOFATTURE
+// ============================================================
+function rAF(){
+  if(!DB.af)DB.af=[];
+  const q=(V('s-af')||'').toLowerCase(),ft=V('s-aft'),fs=V('s-afs');
+  const l=DB.af.filter(a=>{const fo=(DB.fornitori||[]).find(f=>f.id===a.fId);if(q&&!(fo&&fo.nome.toLowerCase().includes(q))&&!(a.num||'').toLowerCase().includes(q))return false;if(ft&&a.tipo!==ft)return false;if(fs&&a.stato!==fs)return false;return true;});
+  const di=DB.af.filter(a=>a.stato==='da inviare').length,tiv=DB.af.reduce((s,a)=>s+parseFloat(a.iva||0),0);
+  G('af-kpi').innerHTML=`<div class="kp"><div class="kl">Totali</div><div class="kv" style="color:var(--ac)">${DB.af.length}</div></div><div class="kp"><div class="kl">Da inviare SDI</div><div class="kv" style="color:var(--re)">${di}</div></div><div class="kp"><div class="kl">IVA totale</div><div class="kv" style="color:var(--am)">${F(tiv)}</div></div><div class="kp"><div class="kl">Anno 2026</div><div class="kv" style="color:var(--pu)">${DB.af.filter(a=>a.data&&a.data.startsWith('2026')).length}</div></div>`;
+  const tl={td17:'TD17 intra-UE serv.',td18:'TD18 intra-UE beni',td19:'TD19 extra-UE/CEE',td28:'TD28 San Marino'};
+  const sc={daInviare:'ba','da inviare':'ba',inviata:'bb',accettata:'bg',scartata:'br'};
+  G('t-af').innerHTML=l.length?l.map(a=>{const fo=(DB.fornitori||[]).find(f=>f.id===a.fId);const ok=!iSc(a.scad,['inviata','accettata'].includes(a.stato)?'pagato':'attesa');return`<tr><td class="n" style="font-size:10px;">${a.num}</td><td><span class="bx bp" style="font-size:9px;">${tl[a.tipo]||a.tipo}</span></td><td>${FD(a.data)}</td><td style="color:${!ok?'var(--re)':'var(--t2)'};">${FD(a.scad)}</td><td>${fo?fo.nome:'—'}</td><td class="n" style="font-size:10px;">${fo?fo.piva:'—'}</td><td class="n">${F(a.imp)}</td><td class="n">${a.aliq}%</td><td class="n" style="color:var(--gr)">${F(a.iva)}</td><td class="n" style="font-weight:500;">${F(a.tot)}</td><td><span class="bx ${sc[a.stato]||'bz'}">${a.stato}</span></td><td style="display:flex;gap:3px;"><button class="btn sm" onclick="avAF(${a.id})">${a.stato==='da inviare'?'Invia':'Avanza'}</button><button class="btn sm" onclick="oM('af',${a.id})">Mod.</button>${cW()?`<button class="btn sm dl" onclick="dR('af',${a.id},rAF)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="12" class="er">Nessuna autofattura</td></tr>`;
+}
+function avAF(id){const a=(DB.af||[]).find(x=>x.id===id);if(!a)return;const st=['da inviare','inviata','accettata'];const i=st.indexOf(a.stato);a.stato=st[Math.min(i+1,st.length-1)];sDB();rAF();}
+
+// ============================================================
+// BANCHE
+// ============================================================
+function rBan(){
+  const tb=G('btabs');
+  tb.innerHTML=(DB.banche||[]).map(b=>`<div class="bti ${b.id===cBId?'on':''}" onclick="sBan(${b.id})">${b.nome}</div>`).join('');
+  const ban=(DB.banche||[]).find(b=>b.id===cBId);if(!ban)return;
+  G('ban-lb').textContent=ban.nome;
+  const fa=V('ban-a');
+  const allM=(DB.movb||[]).filter(m=>m.bId===cBId).sort((a,b)=>new Date(a.data)-new Date(b.data));
+  let sp=parseFloat(ban.si||0);const sm={};
+  allM.forEach(m=>{sp+=parseFloat(m.e||0)-parseFloat(m.u||0);sm[m.id]=sp;});
+  const dm=allM.filter(m=>!fa||m.data.startsWith(fa));
+  const sogg=[...(DB.clienti||[]).map(c=>({k:'c'+c.id,l:'[C] '+c.nome})),...(DB.fornitori||[]).map(f=>({k:'f'+f.id,l:'[F] '+f.nome}))];
+  G('t-ban').innerHTML=dm.length?dm.map(m=>{const s=sm[m.id];const sc=s>=0?'var(--gr)':'var(--re)';const al=m.agg?(sogg.find(x=>x.k===m.agg)||{}).l||m.agg:'';return`<tr><td>${FD(m.data)}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${m.desc||''}">${m.desc||'—'}</td><td class="n" style="color:var(--gr)">${parseFloat(m.e||0)>0?F(m.e):''}</td><td class="n" style="color:var(--re)">${parseFloat(m.u||0)>0?F(m.u):''}</td><td class="n" style="color:${sc}">${F(s)}</td><td><span class="bx bz" style="font-size:9px;">${m.cat||'—'}</span></td><td>${al?`<span class="bx bb" style="font-size:9px;">${al.slice(0,20)}</span>`:`<button class="btn sm" onclick="oAgg(${m.id})">Aggancia</button>`}</td><td>${cW()?`<button class="btn sm dl" onclick="dR('movb',${m.id},rBan)">Del</button>`:''}</td></tr>`;}).join(''):`<tr><td colspan="8" class="er">Nessun movimento${fa?' per '+fa:''}</td></tr>`;
+  const sc2=sp>=0?'var(--gr)':'var(--re)';
+  G('ban-saldo').innerHTML=`<span style="color:${sc2}">${F(sp)}</span><div style="font-size:10px;color:var(--t3);margin-top:3px;">Saldo complessivo</div>`;
+  const te=dm.reduce((s,m)=>s+parseFloat(m.e||0),0),tu=dm.reduce((s,m)=>s+parseFloat(m.u||0),0);
+  G('ban-riep').innerHTML=`<div class="lw"><span class="ll">Saldo iniziale</span><span class="lv">${F(ban.si)}</span></div><div class="lw"><span class="ll">Entrate${fa?' '+fa:''}</span><span class="lv" style="color:var(--gr)">${F(te)}</span></div><div class="lw"><span class="ll">Uscite${fa?' '+fa:''}</span><span class="lv" style="color:var(--re)">${F(tu)}</span></div><div class="lw tt"><span>Saldo finale</span><span style="color:${sc2}">${F(sp)}</span></div>`;
+  const na=allM.filter(m=>!m.agg).length;
+  G('ban-na').innerHTML=na>0?`<div style="color:var(--am);font-size:13px;font-weight:600;">${na} movimenti</div><div style="font-size:10px;color:var(--t3);">da collegare a clienti/fornitori</div>`:`<div style="color:var(--gr);font-size:12px;">Tutti agganciati ✓</div>`;
+}
+function sBan(id){cBId=id;rBan();}
+function oAgg(id){
+  const so=(DB.clienti||[]).map(c=>`<option value="c${c.id}">[C] ${c.nome}</option>`).join('')+(DB.fornitori||[]).map(f=>`<option value="f${f.id}">[F] ${f.nome}</option>`).join('');
+  const co=['incasso clienti','pagamento fornitori','spese generali','spese trasferta','versamento IVA','versamento IRES','versamento IRAP','ritenute','commissioni bancarie','altro'].map(c=>`<option>${c}</option>`).join('');
+  sM(`<div class="mt">Aggancia movimento</div><div class="fg f1"><div class="fi"><label>Collega a</label><select id="ag-s"><option value="">—</option>${so}</select></div></div><div class="fg f1"><div class="fi"><label>Categoria</label><select id="ag-c">${co}</select></div></div><div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sAgg(${id})">Conferma</button></div>`);
+}
+function sAgg(id){const m=(DB.movb||[]).find(x=>x.id===id);if(m){m.agg=V('ag-s')||null;m.cat=V('ag-c');sDB();cM();rBan();}}
+
+// IMPORT BANCA
+let biBuf2=[];
+function hBI(inp){
+  const fi=inp.files[0];if(!fi)return;
+  const ext=fi.name.split('.').pop().toLowerCase();
+  G('bi-s').innerHTML='<span style="color:var(--am)">Analisi...</span>';
+  if(ext==='csv'){const r=new FileReader();r.onload=e=>{pBC(e.target.result,fi.name);inp.value='';};r.readAsText(fi,'UTF-8');}
+  else if(ext==='xlsx'||ext==='xls'){const r=new FileReader();r.onload=e=>{pBE(e.target.result,fi.name);inp.value='';};r.readAsArrayBuffer(fi);}
+  else if(ext==='pdf'){const r=new FileReader();r.onload=e=>{pBP(new Uint8Array(e.target.result),fi.name);inp.value='';};r.readAsArrayBuffer(fi);}
+}
+function isDup(d,e,u){return(DB.movb||[]).some(m=>m.bId===cBId&&m.data===d&&parseFloat(m.e||0)===e&&parseFloat(m.u||0)===u);}
+function pBC(tx,fn){
+  const ln=tx.split(/\r?\n/).filter(l=>l.trim());if(ln.length<2){G('bi-s').innerHTML='<span style="color:var(--re)">CSV vuoto</span>';return;}
+  const sep=ln[0].includes(';')?';':',';const h=ln[0].split(sep).map(x=>x.replace(/"/g,'').trim().toLowerCase());
+  const fi=cs=>{for(const c of cs){const i=h.findIndex(x=>x.includes(c));if(i>=0)return i;}return -1;};
+  const dI=fi(['data','date']);const dsc=fi(['descriz','causale','detail','note']);const daI=fi(['dare','uscita','addebito','debit']);const avI=fi(['avere','entrata','accredito','credit']);const iI=fi(['importo','amount']);
+  const rows=[];
+  for(let i=1;i<ln.length;i++){const c=sCSV(ln[i],sep);if(c.length<2)continue;const d=nD(c[dI>=0?dI:0]?.replace(/"/g,'').trim()||'');const ds=c[dsc>=0?dsc:1]?.replace(/"/g,'').trim()||'';let e=0,u=0;if(daI>=0&&avI>=0){u=pIF(c[daI]);e=pIF(c[avI]);}else if(iI>=0){const n=pIF(c[iI]);if(n>=0)e=n;else u=Math.abs(n);}if(!d||(!e&&!u))continue;const dup=isDup(d,e,u);rows.push({d,ds,e,u,s:!dup,dup,ag:'',cat:''});}
+  sBIPrev(rows,fn);
+}
+function pBE(buf,fn){if(typeof XLSX!=='undefined'){_pBE(buf,fn);}else{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=()=>_pBE(buf,fn);document.head.appendChild(s);}}
+function _pBE(buf,fn){try{const wb=XLSX.read(buf,{type:'arraybuffer',cellDates:true});const ws=wb.Sheets[wb.SheetNames[0]];const da=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});if(da.length<2){G('bi-s').innerHTML='<span style="color:var(--re)">Excel vuoto</span>';return;}const h=da[0].map(x=>String(x).toLowerCase().trim());const fi=cs=>{for(const c of cs){const i=h.findIndex(x=>x.includes(c));if(i>=0)return i;}return -1;};const dI=fi(['data','date']);const dsc=fi(['descriz','causale','detail']);const daI=fi(['dare','uscita','addebito','debit']);const avI=fi(['avere','entrata','accredito','credit']);const iI=fi(['importo','amount']);const rows=[];for(let i=1;i<da.length;i++){const c=da[i];let d='';const dv=c[dI>=0?dI:0];if(dv instanceof Date)d=dv.toISOString().slice(0,10);else d=nD(String(dv||'')).slice(0,10)||'';const ds=String(c[dsc>=0?dsc:1]||'').trim();let e=0,u=0;if(daI>=0&&avI>=0){u=pIF(String(c[daI]));e=pIF(String(c[avI]));}else if(iI>=0){const n=pIF(String(c[iI]));if(n>=0)e=n;else u=Math.abs(n);}if(!d||(!e&&!u))continue;const dup=isDup(d,e,u);rows.push({d,ds,e,u,s:!dup,dup,ag:'',cat:''});}sBIPrev(rows,fn);}catch(ex){G('bi-s').innerHTML=`<span style="color:var(--re)">Errore Excel: ${ex.message}</span>`;}}
+function pBP(by,fn){let tx='';try{const s=new TextDecoder('latin1').decode(by);const m=s.match(/\(([^)]{1,80})\)/g)||[];tx=m.map(x=>x.slice(1,-1)).join(' ');}catch(e){}const rows=[];const ln=tx.split(/\s{3,}/);for(const l of ln){const ds=l.match(/(\d{2}[\/\-\.](\d{2})[\/\-\.](\d{2,4}))/g);const am=(l.match(/(-?\d{1,3}(?:[.,]\d{3})*[.,]\d{2})/g)||[]).map(a=>pIF(a)).filter(n=>!isNaN(n)&&n!==0);if(!ds||!am.length)continue;const d=nD(ds[0]);if(!d)continue;const amt=am[am.length-1];const desc=l.replace(/(\d{2}[\/\-\.](\d{2})[\/\-\.](\d{2,4}))/g,'').replace(/(-?\d{1,3}(?:[.,]\d{3})*[.,]\d{2})/g,'').replace(/\s+/g,' ').trim().slice(0,80);const dup=isDup(d,amt>0?amt:0,amt<0?Math.abs(amt):0);rows.push({d,ds:desc,e:amt>0?amt:0,u:amt<0?Math.abs(amt):0,s:!dup,dup,ag:'',cat:''});}if(!rows.length){G('bi-s').innerHTML='<span style="color:var(--re)">Nessuna transazione nel PDF — usa CSV dalla tua banca</span>';return;}sBIPrev(rows,fn);}
+function sBIPrev(rows,fn){biBuf2=rows;if(!rows.length){G('bi-s').innerHTML='<span style="color:var(--re)">Nessuna riga</span>';return;}G('bi-s').innerHTML=`<span style="color:var(--gr)">${rows.length} righe da "${fn}"</span>`;const so=(DB.clienti||[]).map(c=>`<option value="c${c.id}">[C] ${c.nome}</option>`).join('')+(DB.fornitori||[]).map(f=>`<option value="f${f.id}">[F] ${f.nome}</option>`).join('');const co=['incasso clienti','pagamento fornitori','spese generali','spese trasferta','versamento IVA','versamento IRES','versamento IRAP','ritenute','commissioni bancarie','altro'].map(c=>`<option>${c}</option>`).join('');G('t-bi').innerHTML=rows.map((r,i)=>`<tr style="${r.dup?'opacity:.5':''}"><td><input type="checkbox" ${r.s?'checked':''} onchange="biBuf2[${i}].s=this.checked"/></td><td class="n">${r.d}</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.ds||'—'}</td><td class="n" style="color:var(--gr)">${r.e>0?F(r.e):''}</td><td class="n" style="color:var(--re)">${r.u>0?F(r.u):''}</td><td><select onchange="biBuf2[${i}].ag=this.value" style="font-size:10px;padding:2px 5px;background:var(--bg3);border:1px solid var(--b2);border-radius:3px;color:var(--t);max-width:130px;"><option value="">—</option>${so}</select></td><td><select onchange="biBuf2[${i}].cat=this.value" style="font-size:10px;padding:2px 5px;background:var(--bg3);border:1px solid var(--b2);border-radius:3px;color:var(--t);max-width:120px;">${co}</select></td><td>${r.dup?'<span class="bx ba" style="font-size:9px;">dup</span>':'<span class="bx bg" style="font-size:9px;">nuovo</span>'}</td></tr>`).join('');G('bi-pt').textContent=`${rows.length} righe — revisiona`;G('bi-prev').style.display='block';}
+function tBI(cb){biBuf2.forEach((r,i)=>{if(!r.dup){r.s=cb.checked;const e=G('t-bi')?.querySelectorAll('input[type=checkbox]')[i];if(e)e.checked=cb.checked;}});}
+function cBI(){let n=0;biBuf2.forEach(r=>{if(!r.s||r.dup)return;if(!DB.movb)DB.movb=[];DB.movb.push({id:DB.nx.movb++,bId:cBId,data:r.d,desc:r.ds,e:r.e||0,u:r.u||0,cat:r.cat||'',agg:r.ag||null});n++;});sDB();biBuf2=[];G('bi-prev').style.display='none';G('bi-s').innerHTML=`<span style="color:var(--gr)">${n} movimenti importati</span>`;rBan();}
+function xBI(){biBuf2=[];G('bi-prev').style.display='none';G('bi-s').innerHTML='';}
+
+// ============================================================
+// CASSA
+// ============================================================
+function rCas(){
+  let s=0;const rows=(DB.cassa||[]).sort((a,b)=>new Date(a.data)-new Date(b.data)).map(c=>{s+=parseFloat(c.e||0)-parseFloat(c.u||0);return`<tr><td>${FD(c.data)}</td><td>${c.desc||'—'}</td><td class="n" style="color:var(--gr)">${parseFloat(c.e||0)>0?F(c.e):''}</td><td class="n" style="color:var(--re)">${parseFloat(c.u||0)>0?F(c.u):''}</td><td class="n" style="color:${s>=0?'var(--gr)':'var(--re)'};">${F(s)}</td><td>${cW()?`<button class="btn sm dl" onclick="dR('cassa',${c.id},rCas)">Del</button>`:''}</td></tr>`;});
+  G('t-cas').innerHTML=rows.length?rows.join(''):`<tr><td colspan="6" class="er">Nessun movimento</td></tr>`;
+  G('cas-s').innerHTML=`<span style="color:${s>=0?'var(--gr)':'var(--re)'}">${F(s)}</span><div style="font-size:10px;color:var(--t3);margin-top:3px;">Saldo attuale</div>`;
+}
+
+// ============================================================
+// POS
+// ============================================================
+function rPOS(){
+  const el=G('pos-t');if(el&&el.options.length<=1)(DB.posT||[]).forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=t.nome;el.appendChild(o);});
+  const ft=V('pos-t');const l=(DB.posTr||[]).filter(t=>!ft||t.tId===parseInt(ft)).sort((a,b)=>new Date(b.data)-new Date(a.data));
+  const ap=l.filter(t=>t.stato==='approvata');const ta=ap.reduce((s,t)=>s+parseFloat(t.imp||0),0);
+  const tc=ap.reduce((s,t)=>{const tm=(DB.posT||[]).find(p=>p.id===t.tId);return s+(tm?parseFloat(t.imp)*parseFloat(tm.comm)/100:0);},0);
+  G('pos-kpi').innerHTML=`<div class="kp"><div class="kl">Incassato POS</div><div class="kv" style="color:var(--gr)">${F(ta)}</div></div><div class="kp"><div class="kl">Commissioni</div><div class="kv" style="color:var(--re)">${F(tc)}</div></div><div class="kp"><div class="kl">Netto stimato</div><div class="kv" style="color:var(--pu)">${F(ta-tc)}</div></div><div class="kp"><div class="kl">Transazioni</div><div class="kv" style="color:var(--ac)">${ap.length}</div></div>`;
+  const sc={approvata:'bg',rifiutata:'br',rimborsata:'ba',stornata:'bz'};
+  G('t-pos').innerHTML=l.length?l.map(t=>{const cl=(DB.clienti||[]).find(c=>c.id===t.cId);const tm=(DB.posT||[]).find(p=>p.id===t.tId);const dt=new Date(t.data);const ds=dt.toLocaleDateString('it-IT')+' '+dt.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});return`<tr><td class="n" style="font-size:10px;">${ds}</td><td>${tm?tm.nome:'—'}</td><td>${cl?cl.nome:'—'}</td><td class="n" style="color:${t.stato==='approvata'?'var(--gr)':'var(--re)'};">${F(t.imp)}</td><td><span class="bx bb">${t.circ||'—'}</span></td><td class="n">****${t.u4||'—'}</td><td><span class="bx ${sc[t.stato]||'bz'}">${t.stato}</span></td><td style="display:flex;gap:3px;">${t.stato==='approvata'?`<button class="btn sm" onclick="stP(${t.id})">Storna</button>`:''}<button class="btn sm dl" onclick="dR('posTr',${t.id},rPOS)">Del</button></td></tr>`;}).join(''):`<tr><td colspan="8" class="er">Nessuna transazione</td></tr>`;
+  G('pos-term').innerHTML=(DB.posT||[]).map(t=>{const m=(DB.posTr||[]).filter(x=>x.tId===t.id&&x.stato==='approvata');const tot=m.reduce((s,x)=>s+parseFloat(x.imp||0),0);const cm=tot*parseFloat(t.comm)/100;return`<div style="padding:8px 0;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:500;">${t.nome}</div><div style="font-size:10px;color:var(--t3);">${t.prov} · comm.${t.comm}%</div></div><div style="text-align:right;"><div style="font-family:var(--mo);font-size:12px;">${F(tot)}</div><div style="font-size:10px;color:var(--re);">comm.-${F(cm)}</div></div></div>`;}).join('');
+  const ci={};(DB.posTr||[]).filter(t=>t.stato==='approvata').forEach(t=>{const c=t.circ||'Altro';if(!ci[c])ci[c]={t:0,n:0};ci[c].t+=parseFloat(t.imp||0);ci[c].n++;});
+  G('pos-circ').innerHTML=Object.entries(ci).map(([c,d])=>`<div class="lw"><span class="ll"><span class="bx bb">${c}</span> ${d.n} trans.</span><span class="lv" style="color:var(--gr)">${F(d.t)}</span></div>`).join('')||'<div style="color:var(--t3);font-size:12px;">Nessun dato</div>';
+}
+function stP(id){const t=(DB.posTr||[]).find(x=>x.id===id);if(t&&confirm('Stornare?')){t.stato='stornata';sDB();rPOS();}}
+
+// ============================================================
+// IVA 74-TER
+// ============================================================
+function aFL(){
+  const ri=(DB.fatture||[]).filter(f=>f.tipo==='intra').reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  const re=(DB.fatture||[]).filter(f=>f.tipo==='extra').reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  const rm=(DB.fatture||[]).filter(f=>f.tipo==='mix').reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  const ci=(DB.acquisti||[]).filter(a=>a.tipo==='intra').reduce((s,a)=>s+parseFloat(a.imp||0),0);
+  const ce=(DB.acquisti||[]).filter(a=>a.tipo==='extra').reduce((s,a)=>s+parseFloat(a.imp||0),0);
+  const ia=(DB.acquisti||[]).reduce((s,a)=>s+parseFloat(a.iva||0),0);
+  G('lri').value=(ri+rm/2).toFixed(2);G('lre').value=(re+rm/2).toFixed(2);
+  G('lci').value=ci.toFixed(2);G('lce').value=ce.toFixed(2);
+  G('loi').value=(ri+rm/2).toFixed(2);G('loe').value=(re+rm/2).toFixed(2);G('lia').value=ia.toFixed(2);
+}
+function cLiq(){
+  const ri=parseFloat(V('lri'))||0,re=parseFloat(V('lre'))||0,ci=parseFloat(V('lci'))||0,ce=parseFloat(V('lce'))||0;
+  const al=parseFloat(V('lal'))||22,ac=parseFloat(V('lac'))||0;
+  const oi=parseFloat(V('loi'))||0,oe=parseFloat(V('loe'))||0,ia=parseFloat(V('lia'))||0;
+  const per=V('lp'),anno=V('la');
+  const mI=Math.max(0,ri-ci),mE=Math.max(0,re-ce),an=ci>ri&&ri>0;
+  const bi=mI/(1+al/100),il=bi*al/100,iv=Math.max(0,il-ac);
+  const top=oi+oe,pr=top>0?Math.ceil(oi/top*100):100;
+  const iD=ia*pr/100,iI=ia-iD;
+  G('liq-r').innerHTML=`
+    ${an?'<div style="background:rgba(240,82,82,.1);border:1px solid var(--re);border-radius:var(--r);padding:8px 12px;margin-bottom:10px;font-size:11px;color:var(--re);"><b>⚠ Anomalia:</b> Costi intra-UE > ricavi. Verificare registro acquisti 74-ter.</div>':''}
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Margine globale — ${per} ${anno}</div>
+      <div class="lw"><span class="ll">Ricavi intra-UE</span><span class="lv">${F(ri)}</span></div>
+      <div class="lw"><span class="ll">Costi intra-UE</span><span class="lv" style="color:var(--re)">− ${F(ci)}</span></div>
+      <div class="lw"><span class="ll">Margine lordo</span><span class="lv" style="color:var(--gr)">${F(mI)}</span></div>
+      <div class="lw"><span class="ll">Base imponibile IVA</span><span class="lv">${F(bi)}</span></div>
+      <div class="lw"><span class="ll">IVA ${al}% sul margine</span><span class="lv">${F(il)}</span></div>
+      ${ac>0?`<div class="lw"><span class="ll">Acconto versato</span><span class="lv" style="color:var(--re)">− ${F(ac)}</span></div>`:''}
+      <div class="lw tt"><span>IVA da versare</span><span style="color:var(--re)">${F(iv)}</span></div>
+    </div>
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Servizi extra-UE — fuori campo IVA</div>
+      <div class="lw"><span class="ll">Ricavi extra-UE</span><span class="lv">${F(re)}</span></div>
+      <div class="lw tt"><span>Margine extra-UE</span><span style="color:var(--pu)">${F(mE)}</span></div>
+    </div>
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Pro-rata IVA acquisti</div>
+      <div class="lw"><span class="ll">% detraibilità</span><span class="lv" style="color:var(--pu)">${pr}%</span></div>
+      <div style="height:5px;background:var(--b);border-radius:3px;margin:5px 0;overflow:hidden;"><div style="height:100%;width:${pr}%;background:var(--gr);"></div></div>
+      <div class="lw"><span class="ll">IVA acquisti promiscui</span><span class="lv">${F(ia)}</span></div>
+      <div class="lw"><span class="ll">IVA detraibile</span><span class="lv" style="color:var(--gr)">${F(iD)}</span></div>
+      <div class="lw tt"><span>IVA indetraibile (costo)</span><span style="color:var(--re)">${F(iI)}</span></div>
+    </div>`;
+}
+
+// ============================================================
+// IRES / IRAP
+// ============================================================
+function cIR(){
+  const r=parseFloat(V('ir-r'))||0,c=parseFloat(V('ir-c'))||0,m=parseFloat(V('ir-m'))||0;
+  const p=parseFloat(V('ir-p'))||0,ac=parseFloat(V('ir-ac'))||0,anno=V('ir-a');
+  const v=parseFloat(V('ir-v'))||0,ai=parseFloat(V('ir-ai'))||0;
+  const rd=Math.max(0,r-c-m-p),il=rd*0.24,in2=Math.max(0,il-ac),a1=il*0.40,a2=il*0.60;
+  const irap=Math.max(0,v)*0.039,ira=Math.max(0,irap-ai);
+  G('ir-r').innerHTML=`
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">IRES — Anno ${anno}</div>
+      <div class="lw"><span class="ll">Ricavi</span><span class="lv">${F(r)}</span></div>
+      <div class="lw"><span class="ll">Costi deducibili</span><span class="lv">${F(c)}</span></div>
+      <div class="lw"><span class="ll">Ammortamenti</span><span class="lv">${F(m)}</span></div>
+      <div class="lw"><span class="ll">Perdite pregresse</span><span class="lv">${F(p)}</span></div>
+      <div class="lw"><span class="ll">Reddito imponibile</span><span class="lv" style="color:var(--ac)">${F(rd)}</span></div>
+      <div class="lw"><span class="ll">IRES lorda 24%</span><span class="lv">${F(il)}</span></div>
+      ${ac>0?`<div class="lw"><span class="ll">Acconti versati</span><span class="lv" style="color:var(--re)">− ${F(ac)}</span></div>`:''}
+      <div class="lw tt"><span>IRES a saldo</span><span style="color:var(--re)">${F(in2)}</span></div>
+      <div style="margin-top:8px;padding-top:6px;border-top:1px solid var(--b);">
+        <div class="lw"><span class="ll">Acconto I rata 40%</span><span class="lv" style="color:var(--am)">${F(a1)}</span></div>
+        <div class="lw"><span class="ll">Acconto II rata 60%</span><span class="lv" style="color:var(--am)">${F(a2)}</span></div>
+      </div>
+    </div>
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">IRAP — Anno ${anno}</div>
+      <div class="lw"><span class="ll">Val.prod.netta</span><span class="lv">${F(v)}</span></div>
+      <div class="lw"><span class="ll">IRAP lorda 3,9%</span><span class="lv">${F(irap)}</span></div>
+      ${ai>0?`<div class="lw"><span class="ll">Acconti versati</span><span class="lv" style="color:var(--re)">− ${F(ai)}</span></div>`:''}
+      <div class="lw tt"><span>IRAP a saldo</span><span style="color:var(--re)">${F(ira)}</span></div>
+    </div>`;
+}
+
+// ============================================================
+// F24
+// ============================================================
+function rF24(){
+  G('f24-l').innerHTML=[...(DB.f24||[])].sort((a,b)=>new Date(a.scad)-new Date(b.scad)).map(f=>`
+    <div style="background:var(--bg3);border:1px solid var(--b);border-radius:var(--r2);padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;"><div style="font-size:13px;font-weight:500;">${f.trib} <span class="bx bz" style="margin-left:5px;font-size:9px;">cod.${f.cod}</span></div><div style="font-size:11px;color:var(--t3);margin-top:2px;">${f.note}</div></div>
+      <div style="font-family:var(--mo);font-size:17px;font-weight:600;color:${f.vers?'var(--gr)':'var(--re)'};">${F(f.imp)}</div>
+      <div style="text-align:right;"><div style="font-size:10px;color:var(--t3);">Scadenza</div><div style="font-family:var(--mo);color:${iSc(f.scad,f.vers?'versato':'attesa')?'var(--re)':'var(--am)'};">${FD(f.scad)}</div><div style="margin-top:4px;">${f.vers?'<span class="bx bg">Versato</span>':'<span class="bx ba">Da versare</span>'}</div></div>
+      <div style="display:flex;flex-direction:column;gap:4px;"><button class="btn sm" onclick="tF24(${f.id})">${f.vers?'Riapri':'Segna versato'}</button><button class="btn sm" onclick="oM('f24',${f.id})">Modifica</button>${cW()?`<button class="btn sm dl" onclick="dR('f24',${f.id},rF24)">Del</button>`:''}</div>
+    </div>`).join('')||'<div style="color:var(--t3);padding:20px;text-align:center;">Nessuna scadenza F24</div>';
+}
+function tF24(id){const f=(DB.f24||[]).find(x=>x.id===id);if(f){f.vers=!f.vers;sDB();rF24();iAl();}}
+
+// ============================================================
+// PIANO DEI CONTI
+// ============================================================
+const PIANO=[{c:'101',n:'Cassa',g:'Attivo'},{c:'110',n:'Banche c/c',g:'Attivo'},{c:'120',n:'Crediti v/clienti',g:'Attivo'},{c:'130',n:'Crediti IVA',g:'Attivo'},{c:'210',n:'Debiti v/fornitori',g:'Passivo'},{c:'220',n:'Debiti IVA',g:'Passivo'},{c:'230',n:'Debiti IRES',g:'Passivo'},{c:'240',n:'Debiti IRAP',g:'Passivo'},{c:'250',n:'Ritenute da versare',g:'Passivo'},{c:'301',n:'Ricavi pacchetti intra-UE',g:'Ricavi'},{c:'302',n:'Ricavi pacchetti extra-UE',g:'Ricavi'},{c:'401',n:'Costi servizi intra-UE',g:'Costi'},{c:'402',n:'Costi servizi extra-UE',g:'Costi'},{c:'410',n:'Spese generali',g:'Costi'},{c:'420',n:'Costo personale',g:'Costi'},{c:'430',n:'Ammortamenti',g:'Costi'}];
+function gS(c){
+  if(c==='101')return(DB.cassa||[]).reduce((s,x)=>s+parseFloat(x.e||0)-parseFloat(x.u||0),0);
+  if(c==='110')return(DB.banche||[]).reduce((s,b)=>s+parseFloat(b.si||0)+(DB.movb||[]).filter(m=>m.bId===b.id).reduce((ss,m)=>ss+parseFloat(m.e||0)-parseFloat(m.u||0),0),0);
+  if(c==='120')return(DB.scad||[]).filter(s=>s.tipo==='credito'&&s.stato!=='pagato').reduce((s,x)=>s+parseFloat(x.imp||0),0);
+  if(c==='210')return(DB.scad||[]).filter(s=>s.tipo==='debito'&&s.stato!=='pagato').reduce((s,x)=>s+parseFloat(x.imp||0),0);
+  if(c==='250')return(DB.ritenute||[]).filter(r=>!r.vers).reduce((s,r)=>s+parseFloat(r.rit||0),0);
+  if(c==='301')return(DB.fatture||[]).filter(f=>f.tipo==='intra').reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  if(c==='302')return(DB.fatture||[]).filter(f=>f.tipo==='extra').reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  if(c==='401')return(DB.acquisti||[]).filter(a=>a.tipo==='intra').reduce((s,a)=>s+parseFloat(a.tot||0),0);
+  if(c==='402')return(DB.acquisti||[]).filter(a=>a.tipo==='extra').reduce((s,a)=>s+parseFloat(a.tot||0),0);
+  if(c==='410')return(DB.fp||[]).reduce((s,f)=>s+parseFloat(f.imp||0),0);
+  return 0;
+}
+function rMas(){
+  const gr={};PIANO.forEach(x=>{if(!gr[x.g])gr[x.g]=[];gr[x.g].push(x);});
+  const cl={Attivo:'var(--gr)',Passivo:'var(--re)',Ricavi:'var(--ac)',Costi:'var(--am)'};
+  G('mas-l').innerHTML=Object.entries(gr).map(([g,cc])=>`<div style="margin-bottom:14px;"><div style="font-size:9px;font-weight:600;color:${cl[g]||'var(--t3)'};text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">${g}</div>${cc.map(c=>`<div onclick="sMD('${c.c}','${c.n}')" style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:var(--r);cursor:pointer;border:1px solid var(--b);background:var(--bg3);margin-bottom:3px;" onmouseover="this.style.borderColor='var(--ac)'" onmouseout="this.style.borderColor='var(--b)'"><div><span style="font-family:var(--mo);font-size:10px;color:var(--t3);">${c.c}</span> <span style="font-size:12px;">${c.n}</span></div><span style="font-family:var(--mo);font-size:12px;font-weight:600;color:${cl[c.g]||'var(--t2)'};">${F(gS(c.c))}</span></div>`).join('')}</div>`).join('');
+}
+function sMD(c,n){G('mas-dt').textContent=c+' — '+n;G('mas-d').innerHTML=`<div style="font-size:20px;font-weight:600;font-family:var(--mo);color:var(--ac);margin:8px 0;">${F(gS(c))}</div><div style="font-size:11px;color:var(--t3);">Saldo calcolato automaticamente dai dati inseriti.</div>`;}
+
+// ============================================================
+// SCADENZARIO
+// ============================================================
+function rSca(){
+  const rR=l=>l.length?l.map(s=>{const st=iSc(s.data,s.stato)?'scaduta':s.stato;return`<tr><td style="color:${st==='scaduta'?'var(--re)':'var(--t2)'}">${FD(s.data)}</td><td>${s.sogg}</td><td class="n">${F(s.imp)}</td><td><span class="bx b${['pagato','pagata'].includes(st)?'g':st==='scaduta'?'r':'a'}">${st}</span></td><td><button class="btn sm" onclick="tSc(${s.id})">${s.stato==='pagato'?'Riapri':'Salda'}</button></td></tr>`;}).join(''):`<tr><td colspan="5" class="er">Nessuna voce</td></tr>`;
+  G('t-cr').innerHTML=rR((DB.scad||[]).filter(s=>s.tipo==='credito'));
+  G('t-de').innerHTML=rR((DB.scad||[]).filter(s=>s.tipo==='debito'));
+}
+function tSc(id){const s=(DB.scad||[]).find(x=>x.id===id);if(s){s.stato=s.stato==='pagato'?'attesa':'pagato';sDB();rSca();}}
+
+// ============================================================
+// BILANCIO
+// ============================================================
+function hBil(inp){const f=inp.files[0];if(!f)return;inp.value='';G('bil-s').innerHTML='<span style="color:var(--am)">Analisi PDF...</span>';const r=new FileReader();r.onload=e=>{pBil(new Uint8Array(e.target.result));};r.readAsArrayBuffer(f);}
+function pBil(by){let tx='';try{const s=new TextDecoder('latin1').decode(by);const m=s.match(/\(([^)]{1,80})\)/g)||[];tx=m.map(x=>x.slice(1,-1)).join(' ');}catch(e){}if(!tx||tx.length<50){G('bil-s').innerHTML='<span style="color:var(--am)">PDF non testuale — compilare manualmente</span>';return;}
+  const ep=ls=>{for(const l of ls){const re=new RegExp(l+'[^\\d]{0,30}(\\d[\\d.,]{2,12})','i');const m=tx.match(re);if(m)return pIF(m[1]);}return 0;};
+  VS('b-rc',ep(['Ricavi','Valore della produzione','A\\)']));VS('b-cs',ep(['Costi per servizi','B\\)6']));VS('b-cp',ep(['Costo del personale','B\\)9']));VS('b-am',ep(['Ammortamenti','B\\)10']));VS('b-ac',ep(['Altri costi','Oneri diversi','B\\)14']));VS('b-on',ep(['Oneri finanziari']));VS('b-im',ep(['Immobilizzazioni']));VS('b-cr',ep(['Crediti verso clienti']));VS('b-li',ep(['Disponibilità liquide']));VS('b-ca',ep(['Capitale sociale','I\\)']));VS('b-rs',ep(['Riserve']));VS('b-df',ep(['Debiti verso fornitori']));VS('b-dt',ep(['Debiti tributari']));
+  G('bil-s').innerHTML='<span style="color:var(--gr)">Dati estratti — verifica i campi</span>';}
+function cBil(){
+  const im=parseFloat(V('b-im'))||0,cr=parseFloat(V('b-cr'))||0,li=parseFloat(V('b-li'))||0,ri=parseFloat(V('b-ri'))||0;
+  const ca=parseFloat(V('b-ca'))||0,rs=parseFloat(V('b-rs'))||0,df=parseFloat(V('b-df'))||0,dt=parseFloat(V('b-dt'))||0,db=parseFloat(V('b-db'))||0,tf=parseFloat(V('b-tf'))||0;
+  const rc=parseFloat(V('b-rc'))||0,cs=parseFloat(V('b-cs'))||0,cp=parseFloat(V('b-cp'))||0,am=parseFloat(V('b-am'))||0,ac=parseFloat(V('b-ac'))||0,on=parseFloat(V('b-on'))||0;
+  const eb=rc-cs-cp-ac,ei=eb-am,ut=ei-on;
+  const mn=rc>0?ut/rc*100:0,roe=(ca+rs)>0?ut/(ca+rs)*100:0,cr2=(df+dt)>0?(cr+li+ri)/(df+dt):0,de=(ca+rs)>0?(df+dt+db)/(ca+rs):0;
+  DB.bil={im,cr,li,ri,ca,rs,df,dt,db,tf,rc,cs,cp,am,ac,on,ut,eb,ei};sDB();
+  const ic=(n,ok,wa)=>n>=ok?'var(--gr)':n>=wa?'var(--am)':'var(--re)';
+  G('bil-r').innerHTML=`
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Stato patrimoniale</div>
+      <div class="lw"><span class="ll">Totale attivo</span><span class="lv">${F(im+cr+li+ri)}</span></div>
+      <div class="lw"><span class="ll">Patrimonio netto</span><span class="lv" style="color:var(--gr)">${F(ca+rs)}</span></div>
+      <div class="lw tt"><span>PFN (debiti banche - liq.)</span><span style="color:${db>li?'var(--re)':'var(--gr)'}">${F(db-li)}</span></div>
+    </div>
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Conto economico</div>
+      <div class="lw"><span class="ll">Ricavi</span><span class="lv">${F(rc)}</span></div>
+      <div class="lw"><span class="ll">EBITDA</span><span class="lv" style="color:${eb>=0?'var(--gr)':'var(--re)'}">${F(eb)}</span></div>
+      <div class="lw"><span class="ll">EBIT</span><span class="lv" style="color:${ei>=0?'var(--gr)':'var(--re)'}">${F(ei)}</span></div>
+      <div class="lw tt"><span>Utile / Perdita</span><span style="color:${ut>=0?'var(--gr)':'var(--re)'}">${F(ut)}</span></div>
+    </div>
+    <div class="lr"><div style="font-size:11px;font-weight:600;color:var(--t);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Indici</div>
+      <div class="lw"><span class="ll">Margine netto</span><span class="lv" style="color:${ic(mn,5,0)}">${mn.toFixed(2)}%</span></div>
+      <div class="lw"><span class="ll">ROE</span><span class="lv" style="color:${ic(roe,8,0)}">${roe.toFixed(2)}%</span></div>
+      <div class="lw"><span class="ll">Current ratio</span><span class="lv" style="color:${ic(cr2,1.5,1)}">${cr2.toFixed(2)}</span></div>
+      <div class="lw tt"><span>Debt/Equity</span><span style="color:${de<=2?'var(--gr)':de<=4?'var(--am)':'var(--re)'}">${de.toFixed(2)}</span></div>
+    </div>`;}
+function iBil(){if(!DB.bil||!DB.bil.rc){alert('Calcola prima il bilancio.');return;}const b=DB.bil;G('ir-r').value=b.rc||0;G('ir-c').value=((b.cs||0)+(b.cp||0)+(b.ac||0));G('ir-m').value=b.am||0;G('ir-v').value=b.eb||0;alert('Importato in IRES/IRAP.');nav('ir');}
+
+// ============================================================
+// CODICE FISCALE
+// ============================================================
+const CFM='ABCDEHLMPRST',CFD=[1,0,5,7,9,13,15,17,19,21,2,4,18,20,11,3,6,8,12,14,16,10,22,25,24,23];
+function calCF(n,cg,d,s,b){
+  const cS=(x,iN)=>{x=(x||'').toUpperCase().replace(/[^A-Z]/g,'');const cs=x.split('').filter(c=>'BCDFGHJKLMNPQRSTVWXYZ'.includes(c)),vs=x.split('').filter(c=>'AEIOU'.includes(c));if(iN&&cs.length>=4)return cs[0]+cs[2]+cs[3];const m=[...cs,...vs];while(m.length<3)m.push('X');return m.slice(0,3).join('');};
+  const dt=new Date(d+'T00:00:00'),aa=String(dt.getFullYear()).slice(-2),mm=CFM[dt.getMonth()];let gg=String(dt.getDate()).padStart(2,'0');if(s==='F')gg=String(dt.getDate()+40).padStart(2,'0');
+  const p=cS(cg,false)+cS(n,true)+aa+mm+gg+(b||'').toUpperCase();
+  const al='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';let sm=0;
+  for(let i=0;i<15;i++){const ix=al.indexOf(p[i]);sm+=i%2===0?CFD[ix>=0?ix:0]:(ix>=0?ix:0);}
+  return p+String.fromCharCode(65+sm%26);
+}
+function aggCF(){const cg=V('cf-cg'),nm=V('cf-nm'),d=V('cf-d'),s=V('cf-s'),b=V('cf-b').toUpperCase();const e=G('cf-r');if(!cg||!nm||!d||b.length<4){if(e)e.textContent='—';return;}try{if(e)e.textContent=calCF(nm,cg,d,s,b);}catch(ex){if(e)e.textContent='Errore';}}
+
+// ============================================================
+// MODAL
+// ============================================================
+function sM(h){G('mb').innerHTML=h;G('mo').classList.add('on');}
+function cM(){G('mo').classList.remove('on');}
+G('mo').addEventListener('click',e=>{if(e.target===G('mo'))cM();});
+
+function oM(t,id,exCEE){
+  if(!cW()&&t!=='cf'){alert('Accesso in sola lettura');return;}
+  const cO=(DB.clienti||[]).map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  const fO=(DB.fornitori||[]).map(f=>`<option value="${f.id}">${f.nome}</option>`).join('');
+  const bO=(DB.banche||[]).map(b=>`<option>${b.nome}</option>`).join('');
+
+  if(t==='cli'){const c=id?(DB.clienti||[]).find(x=>x.id===id):{};sM(`<div class="mt">${id?'Modifica':'Nuovo'} cliente</div>
+    <div class="fg f1"><div class="fi"><label>Ragione sociale *</label><input id="m-n" value="${c.nome||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Tipo</label><select id="m-t"><option value="agenzia" ${(c.tipo||'agenzia')==='agenzia'?'selected':''}>Agenzia B2B</option><option value="privato" ${c.tipo==='privato'?'selected':''}>Privato B2C</option></select></div><div class="fi"><label>Paese</label><input id="m-pa" value="${c.paese||'IT'}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>P.IVA/CF</label><input id="m-pi" value="${c.piva||''}"/></div><div class="fi"><label>SDI (7 car.)</label><input id="m-si" maxlength="7" value="${c.sdi||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>PEC</label><input id="m-pc" value="${c.pec||''}"/></div><div class="fi"><label>Email</label><input id="m-em" value="${c.email||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Tel</label><input id="m-te" value="${c.tel||''}"/></div><div class="fi"><label>Note</label><input id="m-no" value="${c.note||''}"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sCli(${id||0})">Salva</button></div>`);}
+
+  else if(t==='fatt'){const f=id?(DB.fatture||[]).find(x=>x.id===id):{};sM(`<div class="mt">${id?'Modifica':'Nuova'} fattura 74-ter</div>
+    <div class="fg f3"><div class="fi"><label>N° *</label><input id="m-n" value="${f.num||aN()}"/></div><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${f.data||TS}"/></div><div class="fi"><label>Scad.pag.</label><input id="m-sc" type="date" value="${f.scad||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Cliente *</label><select id="m-c">${(DB.clienti||[]).map(c=>`<option value="${c.id}" ${f.cId===c.id?'selected':''}>${c.nome}</option>`).join('')}</select></div><div class="fi"><label>Tipo 74-ter</label><select id="m-t"><option value="intra" ${(f.tipo||'intra')==='intra'?'selected':''}>Intra-UE</option><option value="extra" ${f.tipo==='extra'?'selected':''}>Extra-UE</option><option value="mix" ${f.tipo==='mix'?'selected':''}>Mix</option></select></div></div>
+    <div class="fg f3"><div class="fi"><label>Imponibile €</label><input id="m-i" type="number" value="${f.imp||0}"/></div><div class="fi"><label>Totale €</label><input id="m-to" type="number" value="${f.tot||0}"/></div><div class="fi"><label>Stato</label><select id="m-st"><option value="attesa" ${(f.stato||'attesa')==='attesa'?'selected':''}>Attesa</option><option value="pagato" ${f.stato==='pagato'?'selected':''}>Pagato</option></select></div></div>
+    <div class="fg f1"><div class="fi"><label>Note</label><textarea id="m-no">${f.note||''}</textarea></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sFatt(${id||0})">Salva</button></div>`);}
+
+  else if(t==='inc'){sM(`<div class="mt">Nuovo incasso</div>
+    <div class="fg f2"><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${TS}"/></div><div class="fi"><label>Cliente *</label><select id="m-c">${cO}</select></div></div>
+    <div class="fg f2"><div class="fi"><label>Fatt.rif.</label><input id="m-fn" placeholder="es. 2026/001"/></div><div class="fi"><label>Importo €</label><input id="m-i" type="number" value="0"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Conto</label><select id="m-ct">${bO}</select></div><div class="fi"><label>Metodo</label><select id="m-me"><option>bonifico</option><option>contanti</option><option>assegno</option><option>carta</option></select></div></div>
+    <div class="fg f1"><div class="fi"><label>Note</label><input id="m-no"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sInc()">Salva</button></div>`);}
+
+  else if(t==='forn'){const f=id?(DB.fornitori||[]).find(x=>x.id===id):{};const ex=exCEE||f.exCEE;sM(`<div class="mt">${id?'Modifica':'Nuovo'} fornitore${ex?' Extra-CEE':''}</div>
+    ${ex?'<div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:var(--r);padding:7px 11px;font-size:11px;color:var(--am);margin-bottom:10px;">Fornitore extra-CEE: genererà autofattura TD19 obbligatoria.</div>':''}
+    <div class="fg f1"><div class="fi"><label>Ragione sociale *</label><input id="m-n" value="${f.nome||''}"/></div></div>
+    <div class="fg f3"><div class="fi"><label>Tipo servizio</label><input id="m-t" value="${f.tipo||''}"/></div><div class="fi"><label>Paese</label><input id="m-pa" value="${f.paese||'IT'}"/></div><div class="fi"><label>P.IVA/Tax ID</label><input id="m-pi" value="${f.piva||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>SDI (7 car.)</label><input id="m-si" maxlength="7" value="${f.sdi||''}"/></div><div class="fi"><label>PEC</label><input id="m-pc" value="${f.pec||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Email</label><input id="m-em" value="${f.email||''}"/></div><div class="fi"><label>IBAN</label><input id="m-ib" value="${f.iban||''}"/></div></div>
+    ${ex?`<div class="fg f2"><div class="fi"><label>BIC/SWIFT</label><input id="m-bi" value="${f.bic||''}"/></div><div class="fi"><label>Valuta</label><select id="m-va"><option>EUR</option><option>USD</option><option>GBP</option><option>MAD</option><option>THB</option><option>AED</option><option>KES</option></select></div></div>`:''}
+    <div class="fg f2"><div class="fi"><label>Ritenuta</label><select id="m-ri"><option value="0" ${!f.rit?'selected':''}>No</option><option value="1" ${f.rit?'selected':''}>Sì (20%)</option></select></div><div class="fi"><label>Tipo autofattura</label><select id="m-af"><option value="" ${!f.af?'selected':''}>Nessuna</option><option value="td17" ${f.af==='td17'?'selected':''}>TD17 intra-UE serv.</option><option value="td18" ${f.af==='td18'?'selected':''}>TD18 intra-UE beni</option><option value="td19" ${(f.af==='td19'||ex)?'selected':''}>TD19 extra-UE/CEE</option></select></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sForn(${id||0},${ex?1:0})">Salva</button></div>`);}
+
+  else if(t==='acq'){const a=id?(DB.acquisti||[]).find(x=>x.id===id):{};sM(`<div class="mt">${id?'Modifica':'Nuovo'} acquisto</div>
+    <div class="fg f2"><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${a.data||TS}"/></div><div class="fi"><label>Fornitore *</label><select id="m-f">${(DB.fornitori||[]).map(f=>`<option value="${f.id}" ${a.fId===f.id?'selected':''}>${f.nome}</option>`).join('')}</select></div></div>
+    <div class="fg f1"><div class="fi"><label>Descrizione</label><input id="m-de" value="${a.desc||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Tipo 74-ter</label><select id="m-t"><option value="intra" ${(a.tipo||'intra')==='intra'?'selected':''}>Intra-UE</option><option value="extra" ${a.tipo==='extra'?'selected':''}>Extra-UE</option></select></div><div class="fi"><label>Stato</label><select id="m-st"><option value="attesa" ${(a.stato||'attesa')==='attesa'?'selected':''}>Attesa</option><option value="pagato" ${a.stato==='pagato'?'selected':''}>Pagato</option></select></div></div>
+    <div class="fg f3"><div class="fi"><label>Imponibile €</label><input id="m-i" type="number" value="${a.imp||0}"/></div><div class="fi"><label>IVA €</label><input id="m-iv" type="number" value="${a.iva||0}"/></div><div class="fi"><label>Totale €</label><input id="m-to" type="number" value="${a.tot||0}"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sAcq(${id||0})">Salva</button></div>`);}
+
+  else if(t==='rit'){const fo=(DB.fornitori||[]).filter(f=>f.rit);sM(`<div class="mt">Nuova ritenuta d'acconto</div>
+    <div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:var(--r);padding:7px 11px;font-size:11px;color:var(--am);margin-bottom:10px;">Dal 1° maggio 2026: 23% su 50% (senza dipendenti) o su 20% (con dipendenti). F24 cod.1040 entro il 16 del mese successivo.</div>
+    <div class="fg f2"><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${TS}"/></div><div class="fi"><label>Fornitore *</label><select id="m-f">${fo.length?fo.map(f=>`<option value="${f.id}">${f.nome}</option>`).join(''):'<option>— nessun fornitore con ritenuta —</option>'}</select></div></div>
+    <div class="fg f3"><div class="fi"><label>Lordo €</label><input id="m-l" type="number" value="0" oninput="cRit()"/></div><div class="fi"><label>Base %</label><select id="m-b" onchange="cRit()"><option value="50">50% (senza dip.)</option><option value="20">20% (con dip.)</option></select></div><div class="fi"><label>Aliq. %</label><input id="m-a" type="number" value="23" oninput="cRit()"/></div></div>
+    <div id="rit-c" style="background:var(--bg3);border-radius:var(--r);padding:8px 11px;font-size:12px;margin:6px 0;"></div>
+    <div class="fg f1"><div class="fi"><label>Scad.versamento</label><input id="m-sc" type="date" value="${TS}"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sRit()">Salva</button></div>`);cRit();}
+
+  else if(t==='af'){if(!DB.af)DB.af=[];const a=id?DB.af.find(x=>x.id===id):{};const nm=a.num||`AF-${TD.getFullYear()}-${String((DB.nx.af||1)).padStart(3,'0')}`;sM(`<div class="mt">${id?'Modifica':'Nuova'} autofattura</div>
+    <div class="fg f3"><div class="fi"><label>N° *</label><input id="m-n" value="${nm}"/></div><div class="fi"><label>Tipo</label><select id="m-t"><option value="td17" ${(a.tipo||'td17')==='td17'?'selected':''}>TD17 intra-UE serv.</option><option value="td18" ${a.tipo==='td18'?'selected':''}>TD18 intra-UE beni</option><option value="td19" ${a.tipo==='td19'?'selected':''}>TD19 extra-UE/CEE</option><option value="td28" ${a.tipo==='td28'?'selected':''}>TD28 San Marino</option></select></div><div class="fi"><label>Stato SDI</label><select id="m-st"><option value="da inviare" ${(a.stato||'da inviare')==='da inviare'?'selected':''}>Da inviare</option><option value="inviata" ${a.stato==='inviata'?'selected':''}>Inviata</option><option value="accettata" ${a.stato==='accettata'?'selected':''}>Accettata</option><option value="scartata" ${a.stato==='scartata'?'selected':''}>Scartata</option></select></div></div>
+    <div class="fg f2"><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${a.data||TS}" oninput="cSAF()"/></div><div class="fi"><label>Scad.SDI</label><input id="m-sc" type="date" value="${a.scad||''}"/></div></div>
+    <div class="fg f1"><div class="fi"><label>Fornitore *</label><select id="m-f">${(DB.fornitori||[]).map(f=>`<option value="${f.id}" ${a.fId===f.id?'selected':''}>${f.nome} (${f.paese})</option>`).join('')}</select></div></div>
+    <div class="fg f3"><div class="fi"><label>Imponibile €</label><input id="m-i" type="number" step="0.01" value="${a.imp||0}" oninput="cIAF()"/></div><div class="fi"><label>Aliq.IVA%</label><select id="m-al" onchange="cIAF()"><option value="22" ${(a.aliq||22)==22?'selected':''}>22%</option><option value="10" ${a.aliq==10?'selected':''}>10%</option><option value="0" ${a.aliq==0?'selected':''}>0%</option></select></div><div class="fi"><label>IVA €</label><input id="m-iv" readonly style="opacity:.7" value="${a.iva||0}"/></div></div>
+    <div class="fg f1"><div class="fi"><label>Note</label><input id="m-no" value="${a.note||''}"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sAF(${id||0})">Salva</button></div>`);cIAF();cSAF();}
+
+  else if(t==='movb'){sM(`<div class="mt">Movimento bancario</div>
+    <div class="fg f2"><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${TS}"/></div><div class="fi"><label>Conto</label><select id="m-bi">${(DB.banche||[]).map(b=>`<option value="${b.id}" ${b.id===cBId?'selected':''}>${b.nome}</option>`).join('')}</select></div></div>
+    <div class="fg f1"><div class="fi"><label>Descrizione *</label><input id="m-de"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Entrata €</label><input id="m-e" type="number" value="0"/></div><div class="fi"><label>Uscita €</label><input id="m-u" type="number" value="0"/></div></div>
+    <div class="fg f1"><div class="fi"><label>Categoria</label><select id="m-ca"><option>incasso clienti</option><option>pagamento fornitori</option><option>spese generali</option><option>spese trasferta</option><option>versamento IVA</option><option>versamento IRES</option><option>versamento IRAP</option><option>ritenute</option><option>commissioni bancarie</option><option>altro</option></select></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sMB()">Salva</button></div>`);}
+
+  else if(t==='cas'){sM(`<div class="mt">Movimento cassa</div>
+    <div class="fg f1"><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${TS}"/></div></div>
+    <div class="fg f1"><div class="fi"><label>Descrizione *</label><input id="m-de"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Entrata €</label><input id="m-e" type="number" value="0"/></div><div class="fi"><label>Uscita €</label><input id="m-u" type="number" value="0"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sCas()">Salva</button></div>`);}
+
+  else if(t==='pos'){const tO=(DB.posT||[]).map(x=>`<option value="${x.id}">${x.nome}</option>`).join('');sM(`<div class="mt">Transazione POS</div>
+    <div class="fg f2"><div class="fi"><label>Data/Ora *</label><input id="m-d" type="datetime-local" value="${TS}T09:00"/></div><div class="fi"><label>Terminale *</label><select id="m-t">${tO}</select></div></div>
+    <div class="fg f2"><div class="fi"><label>Cliente</label><select id="m-c"><option value="">—</option>${cO}</select></div><div class="fi"><label>Importo €</label><input id="m-i" type="number" value="0"/></div></div>
+    <div class="fg f3"><div class="fi"><label>Circuito</label><select id="m-ci"><option>Visa</option><option>Mastercard</option><option>Amex</option><option>Bancomat/PagoBANCOMAT</option><option>Apple Pay</option><option>Google Pay</option></select></div><div class="fi"><label>Ultimi 4</label><input id="m-u4" maxlength="4"/></div><div class="fi"><label>Stato</label><select id="m-st"><option>approvata</option><option>rifiutata</option></select></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sPOS()">Salva</button></div>`);}
+
+  else if(t==='term'){sM(`<div class="mt">Nuovo terminale POS</div>
+    <div class="fg f2"><div class="fi"><label>Nome *</label><input id="m-n"/></div><div class="fi"><label>Provider</label><select id="m-p"><option>Nexi</option><option>SumUp</option><option>Stripe</option><option>Axepta BNP</option><option>Worldline</option></select></div></div>
+    <div class="fg f3"><div class="fi"><label>MID</label><input id="m-m"/></div><div class="fi"><label>Commissione %</label><input id="m-c" type="number" value="1.5" step="0.01"/></div><div class="fi"><label>Conto accredito</label><select id="m-ct">${bO}</select></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sTerm()">Salva</button></div>`);}
+
+  else if(t==='f24'){const f=id?(DB.f24||[]).find(x=>x.id===id):{};sM(`<div class="mt">${id?'Modifica':'Nuovo'} F24</div>
+    <div class="fg f2"><div class="fi"><label>Tributo *</label><input id="m-t" value="${f.trib||''}"/></div><div class="fi"><label>Codice</label><input id="m-c" value="${f.cod||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Importo €</label><input id="m-i" type="number" value="${f.imp||0}"/></div><div class="fi"><label>Scadenza</label><input id="m-d" type="date" value="${f.scad||TS}"/></div></div>
+    <div class="fg f1"><div class="fi"><label>Note</label><input id="m-no" value="${f.note||''}"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sF24(${id||0})">Salva</button></div>`);}
+
+  else if(t==='sca'){sM(`<div class="mt">Nuova scadenza</div>
+    <div class="fg f2"><div class="fi"><label>Tipo</label><select id="m-t"><option value="credito">Credito</option><option value="debito">Debito</option></select></div><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${TS}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Soggetto *</label><input id="m-s"/></div><div class="fi"><label>Importo €</label><input id="m-i" type="number" value="0"/></div></div>
+    <div class="fg f1"><div class="fi"><label>Note</label><input id="m-no"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sSca()">Salva</button></div>`);}
+
+  else if(t==='fp'){if(!DB.fp)DB.fp=[];const f=id?DB.fp.find(x=>x.id===id):{};const cO2=Object.keys(CD).map(c=>`<option ${(f.cat||'Altro')===c?'selected':''}>${c}</option>`).join('');sM(`<div class="mt">${id?'Modifica':'Nuova'} fattura passiva</div>
+    <div class="fg f3"><div class="fi"><label>N° doc.</label><input id="m-n" value="${f.num||''}"/></div><div class="fi"><label>Data *</label><input id="m-d" type="date" value="${f.data||TS}"/></div><div class="fi"><label>Scad.pag.</label><input id="m-sc" type="date" value="${f.scad||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Fornitore *</label><input id="m-fo" value="${f.forn||''}"/></div><div class="fi"><label>P.IVA</label><input id="m-pi" value="${f.piva||''}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Categoria</label><select id="m-ca" onchange="sFPD()">${cO2}</select></div><div class="fi"><label>Deducib. %</label><input id="m-de" type="number" value="${f.ded||100}"/></div></div>
+    <div class="fg f4"><div class="fi"><label>Imponibile €</label><input id="m-i" type="number" value="${f.imp||0}" oninput="cFPM()"/></div><div class="fi"><label>Aliq.%</label><select id="m-al" onchange="cFPM()"><option value="22" ${(f.aliq||22)==22?'selected':''}>22%</option><option value="10" ${f.aliq==10?'selected':''}>10%</option><option value="5" ${f.aliq==5?'selected':''}>5%</option><option value="4" ${f.aliq==4?'selected':''}>4%</option><option value="0" ${f.aliq==0?'selected':''}>0%</option></select></div><div class="fi"><label>IVA €</label><input id="m-iv" readonly style="opacity:.7" value="${f.iva||0}"/></div><div class="fi"><label>Totale €</label><input id="m-to" type="number" value="${f.tot||0}"/></div></div>
+    <div class="fg f2"><div class="fi"><label>Metodo</label><select id="m-me"><option ${(f.met||'Bonifico')==='Bonifico'?'selected':''}>Bonifico</option><option ${f.met==='SDD addebito diretto'?'selected':''}>SDD addebito diretto</option><option ${f.met==='RID automatico'?'selected':''}>RID automatico</option><option ${f.met==='Carta di credito'?'selected':''}>Carta di credito</option><option ${f.met==='Contanti'?'selected':''}>Contanti</option></select></div><div class="fi"><label>Note</label><input id="m-no" value="${f.note||''}"/></div></div>
+    <div class="ma"><button class="btn" onclick="cM()">Annulla</button><button class="btn pr" onclick="sFPM(${id||0})">Salva</button></div>`);}
+
+  else if(t==='cf'){sM(`<div class="mt">Calcolo Codice Fiscale</div>
+    <div class="fg f2"><div class="fi"><label>Cognome *</label><input id="cf-cg" oninput="aggCF()"/></div><div class="fi"><label>Nome *</label><input id="cf-nm" oninput="aggCF()"/></div></div>
+    <div class="fg f3"><div class="fi"><label>Data nascita *</label><input id="cf-d" type="date" oninput="aggCF()"/></div><div class="fi"><label>Sesso</label><select id="cf-s" onchange="aggCF()"><option value="M">M</option><option value="F">F</option></select></div><div class="fi"><label>Cod.Belfiore *</label><input id="cf-b" maxlength="4" placeholder="es. H501 Roma" oninput="aggCF()" style="text-transform:uppercase"/></div></div>
+    <div style="background:var(--bg3);border-radius:var(--r);padding:10px 14px;margin:8px 0;display:flex;align-items:center;gap:10px;"><span style="font-size:10px;color:var(--t3);">Risultato:</span><span id="cf-r" style="font-family:var(--mo);font-size:18px;font-weight:600;color:var(--ac);letter-spacing:.15em;">—</span><button class="btn sm" onclick="navigator.clipboard?.writeText(G('cf-r').textContent)">Copia</button></div>
+    <div style="font-size:10px;color:var(--t3);">Roma H501 · Milano F205 · Napoli F839 · Torino L219 · Taranto L049 · Bari A662 · Bologna A944 · Firenze D612 · Genova D969 · Palermo G273</div>
+    <div class="ma"><button class="btn" onclick="cM()">Chiudi</button></div>`);}
+}
+
+// MODAL HELPERS
+function cRit(){const l=parseFloat(V('m-l'))||0,b=parseFloat(V('m-b'))||50,a=parseFloat(V('m-a'))||23;const r=l*b/100*a/100;const e=G('rit-c');if(e)e.innerHTML=`Ritenuta: <b style="color:var(--re)">${F(r)}</b> — Netto: <b style="color:var(--gr)">${F(l-r)}</b>`;}
+function cIAF(){const i=parseFloat(V('m-i'))||0,a=parseFloat(V('m-al'))||22;const e=G('m-iv');if(e)e.value=(i*a/100).toFixed(2);}
+function cSAF(){const d=V('m-d');if(!d)return;const dt=new Date(d+'T00:00:00');dt.setDate(15);dt.setMonth(dt.getMonth()+1);const e=G('m-sc');if(e&&!e.value)e.value=dt.toISOString().slice(0,10);}
+function cFPM(){const i=parseFloat(V('m-i'))||0,a=parseFloat(V('m-al'))||22;const ei=G('m-iv');if(ei)ei.value=(i*a/100).toFixed(2);const et=G('m-to');if(et)et.value=(i+i*a/100).toFixed(2);}
+function sFPD(){const c=V('m-ca');const d=CD[c];if(!d)return;const de=G('m-de');if(de)de.value=d.d;const al=G('m-al');if(al){al.value=d.a;cFPM();}}
+
+// SAVE FUNCTIONS
+function sCli(id){const o={nome:V('m-n'),tipo:V('m-t'),paese:V('m-pa'),piva:V('m-pi'),sdi:V('m-si').toUpperCase(),pec:V('m-pc'),email:V('m-em'),tel:V('m-te'),note:V('m-no')};if(!o.nome)return alert('Inserisci la ragione sociale');if(id){Object.assign((DB.clienti||[]).find(c=>c.id===id),o);}else{o.id=DB.nx.cli++;if(!DB.clienti)DB.clienti=[];DB.clienti.push(o);}sDB();cM();rCli();}
+function sFatt(id){const o={num:V('m-n'),data:V('m-d'),cId:parseInt(V('m-c')),tipo:V('m-t'),imp:parseFloat(V('m-i'))||0,tot:parseFloat(V('m-to'))||0,scad:V('m-sc'),stato:V('m-st'),note:V('m-no')};if(!o.num||!o.data)return alert('Compila i campi obbligatori');if(id){Object.assign((DB.fatture||[]).find(f=>f.id===id),o);}else{o.id=DB.nx.fatt++;if(!DB.fatture)DB.fatture=[];DB.fatture.push(o);}sDB();cM();rFatt();}
+function sInc(){const o={data:V('m-d'),cId:parseInt(V('m-c')),fn:V('m-fn'),imp:parseFloat(V('m-i'))||0,conto:V('m-ct'),met:V('m-me'),note:V('m-no')};if(!o.data)return alert('Inserisci la data');o.id=DB.nx.inc++;if(!DB.incassi)DB.incassi=[];DB.incassi.push(o);sDB();cM();rInc();}
+function sForn(id,ex){const o={nome:V('m-n'),tipo:V('m-t'),paese:V('m-pa').toUpperCase(),piva:V('m-pi'),sdi:V('m-si').toUpperCase(),pec:V('m-pc'),email:V('m-em'),iban:V('m-ib'),rit:V('m-ri')==='1',af:V('m-af')||null,exCEE:!!ex};if(ex){o.bic=V('m-bi');o.valuta=V('m-va');}if(!o.nome)return alert('Inserisci la ragione sociale');if(id){Object.assign((DB.fornitori||[]).find(f=>f.id===id),o);}else{o.id=DB.nx.forn++;if(!DB.fornitori)DB.fornitori=[];DB.fornitori.push(o);}sDB();cM();rForn();}
+function sAcq(id){const o={data:V('m-d'),fId:parseInt(V('m-f')),desc:V('m-de'),tipo:V('m-t'),imp:parseFloat(V('m-i'))||0,iva:parseFloat(V('m-iv'))||0,tot:parseFloat(V('m-to'))||0,stato:V('m-st')};if(!o.fId||!o.data)return alert('Compila i campi obbligatori');if(id){Object.assign((DB.acquisti||[]).find(a=>a.id===id),o);}else{o.id=DB.nx.acq++;if(!DB.acquisti)DB.acquisti=[];DB.acquisti.push(o);}sDB();cM();rAcq();}
+function sRit(){const l=parseFloat(V('m-l'))||0,b=parseFloat(V('m-b'))||50,a=parseFloat(V('m-a'))||23,sc=V('m-sc');const o={data:V('m-d'),fId:parseInt(V('m-f')),lordo:l,base:b,aliq:a,rit:l*b/100*a/100,netto:l-l*b/100*a/100,scad:sc,vers:false};if(!o.fId)return alert('Seleziona il fornitore');o.id=DB.nx.rit++;if(!DB.ritenute)DB.ritenute=[];DB.ritenute.push(o);sDB();cM();rRit();}
+function sAF(id){if(!DB.af)DB.af=[];const i=parseFloat(V('m-i'))||0,al=parseFloat(V('m-al'))||22;const o={num:V('m-n'),tipo:V('m-t'),data:V('m-d'),scad:V('m-sc'),fId:parseInt(V('m-f')),imp:i,aliq:al,iva:i*al/100,tot:i+i*al/100,stato:V('m-st'),note:V('m-no')};if(!o.fId||!o.data)return alert('Seleziona fornitore e data');if(id){Object.assign(DB.af.find(x=>x.id===id),o);}else{if(!DB.nx.af)DB.nx.af=1;o.id=DB.nx.af++;DB.af.push(o);}sDB();cM();rAF();}
+function sMB(){const o={bId:parseInt(V('m-bi')),data:V('m-d'),desc:V('m-de'),e:parseFloat(V('m-e'))||0,u:parseFloat(V('m-u'))||0,cat:V('m-ca'),agg:null};if(!o.desc||!o.data)return alert('Compila i campi obbligatori');o.id=DB.nx.movb++;cBId=o.bId;if(!DB.movb)DB.movb=[];DB.movb.push(o);sDB();cM();rBan();}
+function sCas(){const o={data:V('m-d'),desc:V('m-de'),e:parseFloat(V('m-e'))||0,u:parseFloat(V('m-u'))||0};if(!o.desc||!o.data)return alert('Compila i campi obbligatori');o.id=DB.nx.cas++;if(!DB.cassa)DB.cassa=[];DB.cassa.push(o);sDB();cM();rCas();}
+function sPOS(){const o={data:V('m-d'),tId:parseInt(V('m-t')),cId:parseInt(V('m-c'))||null,imp:parseFloat(V('m-i'))||0,circ:V('m-ci'),u4:V('m-u4'),stato:V('m-st'),note:''};if(!o.tId)return alert('Seleziona il terminale');o.id=DB.nx.pos++;if(!DB.posTr)DB.posTr=[];DB.posTr.push(o);sDB();cM();rPOS();}
+function sTerm(){const o={nome:V('m-n'),prov:V('m-p'),mid:V('m-m'),comm:parseFloat(V('m-c'))||0,conto:V('m-ct')};if(!o.nome)return alert('Inserisci il nome');o.id=DB.nx.posT++;if(!DB.posT)DB.posT=[];DB.posT.push(o);sDB();cM();rPOS();}
+function sF24(id){const o={trib:V('m-t'),cod:V('m-c'),imp:parseFloat(V('m-i'))||0,scad:V('m-d'),note:V('m-no'),vers:false};if(!o.trib)return alert('Inserisci il tributo');if(id){const f=(DB.f24||[]).find(x=>x.id===id);Object.assign(f,{trib:o.trib,cod:o.cod,imp:o.imp,scad:o.scad,note:o.note});}else{o.id=DB.nx.f24++;if(!DB.f24)DB.f24=[];DB.f24.push(o);}sDB();cM();rF24();}
+function sSca(){const o={tipo:V('m-t'),data:V('m-d'),sogg:V('m-s'),imp:parseFloat(V('m-i'))||0,stato:'attesa',note:V('m-no')};if(!o.sogg||!o.data)return alert('Compila i campi obbligatori');o.id=DB.nx.scad++;if(!DB.scad)DB.scad=[];DB.scad.push(o);sDB();cM();rSca();}
+function sFPM(id){if(!DB.fp)DB.fp=[];const i=parseFloat(V('m-i'))||0,al=parseFloat(V('m-al'))||22;const o={num:V('m-n'),data:V('m-d'),scad:V('m-sc'),forn:V('m-fo'),piva:V('m-pi'),cat:V('m-ca'),imp:i,aliq:al,iva:parseFloat(V('m-iv'))||i*al/100,tot:parseFloat(V('m-to'))||i+i*al/100,ded:parseFloat(V('m-de'))||100,met:V('m-me'),stato:'da pagare',note:V('m-no')};if(!o.forn)return alert('Inserisci il fornitore');if(id){Object.assign(DB.fp.find(f=>f.id===id),o);}else{o.id=DB.nx.fp++;DB.fp.push(o);}sDB();cM();rFP();}
+
+function dR(tb,id,cb){if(!confirm('Eliminare?'))return;if(!DB[tb])return;DB[tb]=DB[tb].filter(x=>x.id!==id);sDB();if(cb)cb();}
+
+</script>
+</body>
+</html>
