@@ -569,13 +569,14 @@ if(sessionStorage.getItem('tm_auth') === '1'){
         <input id="chat-in" placeholder="Scrivi messaggio..." style="flex:1;font-size:13px;padding:7px 11px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);" onkeydown="if(event.key==='Enter')sendMsg()"/>
         <select id="chat-tag" style="font-size:11px;padding:5px 8px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t2);"><option value="">— tag —</option><option>preventivo</option><option>conferma</option><option>pagamento</option><option>modifica</option><option>reclamo</option></select>
         <button class="btn pr" onclick="inviaAssistente()">Invia</button>
+      </div><!-- input area -->
+    </div><!-- chat container -->
+  </div><!-- ct -->
+</div><!-- main -->
+</div><!-- app -->
 
-</div>
-</div>
-</div>
-</div>
-</div>
-
+<!-- MODAL OVERLAY -->
+<div class="mo" id="mo"><div class="mb" id="mb"></div></div>
 
 <script>
 function strs(n){return "★".repeat(parseInt(n)||0)||"—";}
@@ -1137,54 +1138,31 @@ function mostraStatoSync(stato){
 }
 
 const CRM_VER = 'crm_v5';
-const BUILD_VER = '20260322_v1'; // Aggiorna questo ad ogni deploy importante
+const BUILD_VER = '20260322_v2'; // Aggiorna questo ad ogni deploy importante
 const CRM_STORAGE_KEY=CRM_KEY+'_'+CRM_VER; // v5 = new listini schema
 
 function loadCRM(){
-  // Forza reset se build version diversa
-  var savedBuild = localStorage.getItem('tm_build_ver');
-  if(savedBuild && savedBuild !== BUILD_VER){
-    console.log('[TourManager] Nuova versione rilevata ('+savedBuild+' -> '+BUILD_VER+') — reset dati');
-    localStorage.removeItem('tm_crm_v5');
-    localStorage.setItem('tm_build_ver', BUILD_VER);
-  } else if(!savedBuild){
-    localStorage.setItem('tm_build_ver', BUILD_VER);
-  }
+  // Carica sempre le strutture dal file (defCRM)
+  // I dati utente (preventivi, pratiche, ecc) vengono mantenuti
+  const defaults = defCRM();
   try{
-    const r=localStorage.getItem(CRM_STORAGE_KEY);
+    const r = localStorage.getItem(CRM_STORAGE_KEY);
     if(r){
-      const d=JSON.parse(r);
-      if(d&&d.richieste){
-        // Lista nera: strutture che l'utente ha cancellato — NON vanno mai reinserite
-        const listaNera = d._listini_cancellati || [];
-        
-        // MERGE: aggiungi strutture nuove dal defCRM che:
-        // 1. non sono già nel localStorage
-        // 2. NON sono in lista nera (l'utente le ha cancellate intenzionalmente)
-        const defaults=defCRM();
-        const idEsistenti=(d.listini||[]).map(function(l){return l.id;});
-        const nuove=(defaults.listini||[]).filter(function(l){
-          return !idEsistenti.includes(l.id) && !listaNera.includes(l.id);
-        });
-        if(nuove.length>0){
-          d.listini=(d.listini||[]).concat(nuove);
-          const fornEsistenti=(d.fornitori||[]).map(function(f){return f.id;});
-          const nuoviForn=(defaults.fornitori||[]).filter(function(f){return !fornEsistenti.includes(f.id);});
-          d.fornitori=(d.fornitori||[]).concat(nuoviForn);
-          const maxId=Math.max.apply(null,(d.listini||[]).map(function(l){return l.id;}));
-          if(d.nx&&d.nx.list<=maxId) d.nx.list=maxId+1;
-          try{localStorage.setItem(CRM_STORAGE_KEY,JSON.stringify(d));}catch(e){}
-        }
+      const d = JSON.parse(r);
+      if(d && d._ver === CRM_VER){
+        // Aggiorna SEMPRE le strutture dal file — mai dalla cache
+        d.listini = defaults.listini;
+        d.fornitori = defaults.fornitori;
+        // Salva con strutture aggiornate
+        try{ localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(d)); }catch(e){}
         return d;
       }
     }
   }catch(e){}
-  const d=defCRM();
-  try{localStorage.setItem(CRM_STORAGE_KEY,JSON.stringify(d));}catch(e){}
-  return d;
+  // Prima volta o versione diversa — usa tutto da default
+  try{ localStorage.setItem(CRM_STORAGE_KEY, JSON.stringify(defaults)); }catch(e){}
+  return defaults;
 }
-
-// Carica da Supabase al primo avvio e sincronizza
 function initSupabaseSync(){
   // Supabase temporaneamente disabilitato
   mostraStatoSync('offline');
@@ -6529,7 +6507,6 @@ function inviaAssistente(){
       'Content-Type':'application/json',
       'anthropic-dangerous-direct-browser-access':'true',
       'anthropic-version':'2023-06-01',
-      'x-api-key': ANTHROPIC_KEY,
       'x-api-key': ANTHROPIC_KEY
     },
     body:JSON.stringify({
